@@ -1,0 +1,1687 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>特定學習障礙（SLD）鑑定研判實務指南</title>
+  <script>
+    (() => {
+      try {
+        const saved = localStorage.getItem('sld-guide-theme');
+        const preferred = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.dataset.theme = saved || preferred;
+      } catch (_) {
+        document.documentElement.dataset.theme = 'light';
+      }
+    })();
+  </script>
+  <style>
+    :root {
+      --paper: #f3f6f4;
+      --surface: #ffffff;
+      --ink: #17231e;
+      --muted: #5b6b64;
+      --rule: #ced8d3;
+      --teal: #126f67;
+      --teal-soft: #dbece8;
+      --amber: #9b5b11;
+      --amber-soft: #f4e8d5;
+      --red: #9a3f3b;
+      --red-soft: #f3dfde;
+      --navy: #2b4f63;
+      --sidebar: 304px;
+      --radius: 6px;
+      --shadow: 0 10px 28px rgba(23, 35, 30, .09);
+      --serif: "Iowan Old Style", "Noto Serif TC", "Songti TC", serif;
+      --sans: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      --mono: "SFMono-Regular", Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    html { color-scheme: light; scroll-behavior: smooth; }
+    html[data-theme="dark"] { color-scheme: dark; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font-family: var(--sans); line-height: 1.7; }
+    button, input, select, textarea { font: inherit; }
+    button { color: inherit; }
+    :focus-visible { outline: 3px solid #e0a33f; outline-offset: 3px; }
+    .skip-link { position: fixed; left: 12px; top: -60px; z-index: 100; background: var(--ink); color: white; padding: 10px 14px; }
+    .skip-link:focus { top: 12px; }
+    .app-shell { min-height: 100vh; display: grid; grid-template-columns: var(--sidebar) minmax(0, 1fr); }
+    .sidebar { position: sticky; top: 0; height: 100vh; padding: 28px 22px; background: #1b2923; color: #edf5f1; display: flex; flex-direction: column; z-index: 20; }
+    .brand-kicker { margin: 0 0 8px; color: #90c8bb; font: 700 11px/1.4 var(--mono); text-transform: uppercase; }
+    .brand-title { margin: 0; font: 650 22px/1.35 var(--serif); letter-spacing: 0; }
+    .brand-sub { margin: 8px 0 24px; color: #b6c9c0; font-size: 13px; line-height: 1.55; }
+    .tab-nav { display: grid; gap: 4px; }
+    .tab-button { width: 100%; min-height: 44px; display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: center; border: 0; border-left: 3px solid transparent; border-radius: 2px; padding: 9px 10px; background: transparent; color: #bfd0c8; text-align: left; cursor: pointer; }
+    .tab-button:hover { background: rgba(255,255,255,.06); color: white; }
+    .tab-button[aria-selected="true"] { color: white; background: rgba(144,200,187,.12); border-left-color: #7fc8b7; }
+    .tab-index { font: 700 11px/1 var(--mono); color: #87b9ad; }
+    .tab-label { font-size: 13px; line-height: 1.35; }
+    .sidebar-footer { margin-top: auto; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.13); }
+    .progress-line { height: 4px; overflow: hidden; background: rgba(255,255,255,.12); }
+    .progress-line span { display: block; height: 100%; width: 14.28%; background: #82c9b8; transition: width .25s ease; }
+    .progress-copy { display: flex; justify-content: space-between; margin-top: 9px; color: #9fb7ac; font-size: 11px; }
+    .source-open { margin-top: 13px; border: 1px solid rgba(255,255,255,.22); background: transparent; color: #d9e7e1; border-radius: 3px; padding: 8px 10px; cursor: pointer; }
+
+    .main { min-width: 0; }
+    .masthead { position: sticky; top: 0; z-index: 15; min-height: 72px; padding: 12px clamp(22px, 4vw, 64px); display: flex; align-items: center; justify-content: space-between; gap: 20px; background: rgba(243,246,244,.94); border-bottom: 1px solid var(--rule); backdrop-filter: blur(10px); }
+    .masthead > div:first-child { min-width: 0; flex: 1 1 auto; }
+    .mobile-current { display: none; }
+    .masthead-meta { font-size: 12px; color: var(--muted); }
+    .actions { flex: 0 0 auto; display: flex; gap: 8px; }
+    .icon-button, .action-button { border: 1px solid var(--rule); background: var(--surface); border-radius: 4px; min-height: 40px; padding: 8px 12px; cursor: pointer; }
+    .icon-button:hover, .action-button:hover { border-color: var(--teal); color: var(--teal); }
+    .theme-toggle, .notes-button { width: 40px; min-width: 40px; padding: 6px; font-size: 20px; line-height: 1; }
+    .tab-strip { display: none; }
+    .content { width: 100%; max-width: 1600px; margin: 0 auto; padding: clamp(32px, 5vw, 78px) clamp(22px, 5vw, 86px) 100px; }
+    .hero { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(260px, .6fr); gap: clamp(28px, 5vw, 76px); align-items: end; padding: 8px 0 clamp(40px, 6vw, 84px); border-bottom: 1px solid var(--ink); }
+    .eyebrow { margin: 0 0 14px; color: var(--teal); font: 750 12px/1.4 var(--mono); }
+    .hero h1 { margin: 0; max-width: 850px; font: 620 clamp(38px, 5vw, 76px)/1.08 var(--serif); letter-spacing: 0; text-wrap: balance; }
+    .hero-subtitle { margin: 22px 0 0; max-width: 740px; font-size: clamp(17px, 1.6vw, 23px); color: #405149; line-height: 1.6; }
+    .hero-map { border-left: 4px solid var(--teal); padding: 4px 0 4px 22px; }
+    .hero-map strong { display: block; font: 650 18px/1.4 var(--serif); }
+    .hero-map p { margin: 8px 0 0; color: var(--muted); font-size: 13px; }
+    .privacy-note { margin-top: 16px; color: var(--red); font-size: 12px; }
+    .legal-banner { margin: 22px 0 0; display: grid; grid-template-columns: 150px minmax(0, 1fr) auto; gap: 20px; align-items: center; padding: 18px 20px; border: 1px solid #d7b47c; border-left: 5px solid var(--amber); background: #fff8ed; }
+    .legal-date { color: var(--amber); font: 800 12px/1.45 var(--mono); }
+    .legal-copy strong { display: block; font-size: 15px; }
+    .legal-copy p { margin: 3px 0 0; color: #67533a; font-size: 13px; }
+    .legal-links { display: flex; gap: 7px; }
+    .legal-links a { border: 1px solid #c59d61; border-radius: 3px; color: #714812; padding: 6px 9px; font-size: 12px; font-weight: 700; text-decoration: none; white-space: nowrap; }
+    .legal-links a:hover { background: white; }
+
+    .tab-panel { display: none; animation: panel-in .22s ease-out; }
+    .tab-panel.active { display: block; }
+    @keyframes panel-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .section-intro { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 28px; margin: 56px 0 42px; align-items: start; }
+    .chapter-mark { color: var(--teal); font: 800 58px/.9 var(--mono); }
+    .section-intro h2 { margin: 0; font: 620 clamp(30px, 3.2vw, 48px)/1.15 var(--serif); }
+    .section-intro p { max-width: 760px; color: var(--muted); }
+    .prose { max-width: 1120px; }
+    .prose h3 { margin: 52px 0 12px; padding-top: 18px; border-top: 1px solid var(--rule); font: 650 27px/1.25 var(--serif); }
+    .prose h4 { margin: 32px 0 10px; font-size: 19px; }
+    .prose h5 { margin: 24px 0 8px; font-size: 16px; }
+    .prose p, .prose li { max-width: 900px; }
+    .prose ul, .prose ol { padding-left: 1.25em; }
+    .prose li { margin: 7px 0; }
+    .prose code { font-family: var(--mono); background: var(--teal-soft); padding: 2px 5px; border-radius: 2px; }
+    .callout { margin: 24px 0; max-width: 920px; padding: 18px 22px; border-left: 4px solid var(--amber); background: var(--amber-soft); }
+    .callout p { margin: 0; }
+    .table-wrap { overflow-x: auto; margin: 20px 0 32px; border-top: 2px solid var(--ink); }
+    table { width: 100%; min-width: 680px; border-collapse: collapse; font-size: 14px; }
+    th, td { padding: 12px 14px; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
+    th { background: #e7eeeb; font-weight: 700; }
+    tr:hover td { background: #f8faf9; }
+    .citations { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 26px; }
+    .citation { min-width: 34px; border: 1px solid #9bb8af; border-radius: 3px; background: transparent; color: var(--teal); padding: 3px 7px; font: 700 11px/1.4 var(--mono); cursor: help; }
+
+    .evidence-rail { margin: 38px 0 54px; counter-reset: rail; }
+    .rail-step { position: relative; display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 22px; padding: 0 0 34px; }
+    .rail-step::before { counter-increment: rail; content: counter(rail); z-index: 1; width: 54px; height: 54px; display: grid; place-items: center; border: 2px solid var(--teal); background: var(--paper); color: var(--teal); border-radius: 50%; font: 800 18px/1 var(--mono); }
+    .rail-step:not(:last-child)::after { content: ''; position: absolute; top: 54px; left: 26px; bottom: 0; width: 2px; background: linear-gradient(var(--teal), var(--rule)); }
+    .rail-step h3 { margin: 0 0 5px; font: 650 22px/1.3 var(--serif); }
+    .rail-step p { margin: 0; color: var(--muted); }
+    .rail-check { margin-top: 9px; display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--teal); }
+    .rail-check input { width: 18px; height: 18px; accent-color: var(--teal); }
+
+    .case-tools { position: sticky; top: 72px; z-index: 10; display: grid; grid-template-columns: minmax(220px, 1fr) auto auto; gap: 10px; padding: 14px 0; background: var(--paper); border-bottom: 1px solid var(--rule); }
+    .field { min-height: 44px; width: 100%; border: 1px solid var(--rule); background: white; border-radius: 4px; padding: 9px 12px; color: var(--ink); }
+    .case-count { align-self: center; color: var(--muted); font-size: 13px; white-space: nowrap; }
+    .case-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+    .case-card { min-width: 0; border: 1px solid var(--rule); border-radius: var(--radius); background: var(--surface); overflow: hidden; }
+    .case-card.hidden { display: none; }
+    .case-topline { min-height: 104px; display: grid; grid-template-columns: 58px minmax(0, 1fr) auto; gap: 14px; padding: 20px; align-items: start; border-bottom: 1px solid #e3e9e6; }
+    .case-number { color: var(--teal); font: 800 28px/1 var(--mono); }
+    .case-date { margin: 0 0 3px; color: var(--muted); font: 650 11px/1.4 var(--mono); }
+    .case-heading h3 { margin: 0; font: 650 19px/1.35 var(--serif); }
+    .status { display: inline-flex; align-items: center; min-height: 28px; border-radius: 3px; padding: 4px 8px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+    .status-confirmed { color: #0c5e55; background: var(--teal-soft); }
+    .status-conditional { color: #7a480d; background: var(--amber-soft); }
+    .status-not-supported, .status-insufficient { color: #843634; background: var(--red-soft); }
+    .case-picture { margin: 0; padding: 18px 20px; color: #3d4c45; }
+    .case-detail { border-top: 1px solid #e3e9e6; }
+    .case-detail summary { padding: 13px 20px; cursor: pointer; color: var(--teal); font-weight: 700; }
+    .case-body { padding: 4px 20px 24px; }
+    .case-body h2 { display: none; }
+    .case-body h3 { margin: 28px 0 8px; font: 650 20px/1.35 var(--serif); }
+    .case-body p, .case-body li { font-size: 14px; }
+    .case-body ol, .case-body ul { padding-left: 1.25em; }
+    .case-detail .citations { padding: 0 20px 20px; margin: 0; }
+    .case-empty { display: none; padding: 48px 0; color: var(--muted); text-align: center; }
+
+    .review-mode { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 36px; }
+    .review-menu { position: sticky; top: 92px; align-self: start; display: grid; gap: 4px; }
+    .review-menu button { border: 0; border-left: 3px solid var(--rule); background: transparent; padding: 10px 12px; text-align: left; cursor: pointer; }
+    .review-menu button.active { border-left-color: var(--teal); color: var(--teal); font-weight: 700; }
+    .review-pane { display: none; }
+    .review-pane.active { display: block; }
+    .qa-list details { border-bottom: 1px solid var(--rule); }
+    .qa-list summary { padding: 18px 0; cursor: pointer; font-weight: 700; }
+    .qa-list .answer { padding: 0 0 18px; color: #3d4d45; }
+    .flash-toolbar, .quiz-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 16px; }
+    .flash-stage { perspective: 1100px; min-height: 360px; }
+    .flashcard { position: relative; width: min(720px, 100%); min-height: 330px; border: 1px solid var(--rule); border-radius: var(--radius); background: white; transform-style: preserve-3d; transition: transform .45s ease; cursor: pointer; box-shadow: var(--shadow); }
+    .flashcard.flipped { transform: rotateY(180deg); }
+    .flash-face { position: absolute; inset: 0; display: grid; place-content: center; gap: 16px; padding: clamp(28px, 6vw, 70px); backface-visibility: hidden; text-align: center; }
+    .flash-back { transform: rotateY(180deg); background: #e8f1ee; }
+    .flash-tag { color: var(--teal); font: 700 12px/1.4 var(--mono); }
+    .flash-term { font: 650 clamp(28px, 4vw, 44px)/1.2 var(--serif); }
+    .flash-def { font-size: clamp(18px, 2vw, 23px); line-height: 1.6; }
+    .flash-hint { position: absolute; bottom: 16px; left: 0; right: 0; color: var(--muted); font-size: 11px; }
+    .quiz-box { max-width: 820px; border-top: 3px solid var(--teal); background: white; padding: clamp(22px, 4vw, 42px); }
+    .quiz-kicker { color: var(--teal); font: 700 12px/1.4 var(--mono); }
+    .quiz-question { margin: 10px 0 22px; font: 650 clamp(22px, 3vw, 32px)/1.4 var(--serif); }
+    .options { display: grid; gap: 9px; }
+    .option { width: 100%; min-height: 48px; border: 1px solid var(--rule); border-radius: 4px; background: white; padding: 10px 14px; text-align: left; cursor: pointer; }
+    .option:hover:not(:disabled) { border-color: var(--teal); }
+    .option.correct { border-color: var(--teal); background: var(--teal-soft); color: #0b554e; }
+    .option.wrong { border-color: var(--red); background: var(--red-soft); color: #7c302d; }
+    .quiz-feedback { display: none; margin-top: 18px; padding: 14px 16px; border-left: 4px solid var(--teal); background: #edf4f1; }
+    .quiz-feedback.visible { display: block; }
+    .quiz-score { color: var(--muted); font-size: 13px; }
+
+    .drawer-backdrop { position: fixed; inset: 0; z-index: 40; display: none; background: rgba(15,25,21,.38); }
+    .drawer-backdrop.open { display: block; }
+    .drawer { position: fixed; top: 0; right: 0; z-index: 50; width: min(460px, 94vw); height: 100vh; padding: 26px; overflow: auto; background: white; box-shadow: -18px 0 40px rgba(0,0,0,.16); transform: translateX(105%); transition: transform .25s ease; }
+    .drawer.open { transform: none; }
+    .drawer-head { display: flex; justify-content: space-between; gap: 14px; align-items: start; }
+    .drawer h2 { margin: 0; font: 650 26px/1.3 var(--serif); }
+    .drawer-close { border: 0; background: transparent; font-size: 26px; cursor: pointer; }
+    .note-context { color: var(--teal); font-size: 12px; font-weight: 700; }
+    .notes-area { width: 100%; min-height: 320px; resize: vertical; border: 1px solid var(--rule); border-radius: 4px; padding: 12px; line-height: 1.6; }
+    .note-status { min-height: 24px; color: var(--muted); font-size: 12px; }
+    .source-list { list-style: none; padding: 0; }
+    .source-list li { display: grid; grid-template-columns: 42px 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--rule); }
+    .source-list strong { color: var(--teal); font-family: var(--mono); }
+    .source-list span { font-size: 13px; color: #43534b; }
+
+    html[data-theme="dark"] {
+      --paper: #111815;
+      --surface: #19221e;
+      --ink: #edf4f0;
+      --muted: #aab9b2;
+      --rule: #3a4942;
+      --teal: #79cdbc;
+      --teal-soft: #203d36;
+      --amber: #efb66d;
+      --amber-soft: #3b2d1e;
+      --red: #e4938e;
+      --red-soft: #422725;
+      --shadow: 0 10px 28px rgba(0, 0, 0, .28);
+    }
+    html[data-theme="dark"] .masthead { background: rgba(17, 24, 21, .94); }
+    html[data-theme="dark"] .hero-subtitle,
+    html[data-theme="dark"] .case-picture,
+    html[data-theme="dark"] .qa-list .answer,
+    html[data-theme="dark"] .source-list span { color: #bdcbc4; }
+    html[data-theme="dark"] .legal-banner { border-color: #755a35; background: #2d2418; }
+    html[data-theme="dark"] .legal-copy p { color: #d7c2a3; }
+    html[data-theme="dark"] .legal-links a { border-color: #9c7542; color: #f2c987; }
+    html[data-theme="dark"] .legal-links a:hover { background: #3b2d1e; }
+    html[data-theme="dark"] th { background: #23312b; }
+    html[data-theme="dark"] tr:hover td { background: #17201c; }
+    html[data-theme="dark"] .case-topline,
+    html[data-theme="dark"] .case-detail { border-color: #34443c; }
+    html[data-theme="dark"] .field,
+    html[data-theme="dark"] .flashcard,
+    html[data-theme="dark"] .quiz-box,
+    html[data-theme="dark"] .option,
+    html[data-theme="dark"] .drawer,
+    html[data-theme="dark"] .notes-area { border-color: var(--rule); background: var(--surface); color: var(--ink); }
+    html[data-theme="dark"] .flash-back { background: #20352f; }
+    html[data-theme="dark"] .quiz-feedback { background: #1c302a; }
+    html[data-theme="dark"] .status-confirmed,
+    html[data-theme="dark"] .option.correct { color: #a7eadb; }
+    html[data-theme="dark"] .status-conditional { color: #f1c98a; }
+    html[data-theme="dark"] .status-not-supported,
+    html[data-theme="dark"] .status-insufficient,
+    html[data-theme="dark"] .option.wrong { color: #f2aaa5; }
+    html[data-theme="dark"] .drawer-backdrop { background: rgba(0, 0, 0, .58); }
+
+    @media (max-width: 1120px) {
+      .app-shell { display: block; }
+      .sidebar { display: none; }
+      .masthead { min-height: 64px; }
+      .mobile-current { display: block; font-weight: 700; }
+      .masthead-meta { display: none; }
+      .tab-strip { position: sticky; top: 64px; z-index: 14; display: flex; gap: 4px; overflow-x: auto; padding: 8px 18px; background: rgba(243,246,244,.97); border-bottom: 1px solid var(--rule); scrollbar-width: thin; }
+      html[data-theme="dark"] .tab-strip { background: rgba(17, 24, 21, .97); }
+      .tab-strip button { flex: 0 0 auto; min-height: 38px; border: 1px solid transparent; border-radius: 3px; background: transparent; padding: 6px 10px; color: var(--muted); cursor: pointer; }
+      .tab-strip button[aria-selected="true"] { border-color: var(--teal); color: var(--teal); background: white; }
+      .content { padding-top: 44px; }
+      .case-tools { top: 111px; }
+    }
+    @media (max-width: 820px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 43px; }
+      .section-intro { grid-template-columns: 74px minmax(0, 1fr); gap: 16px; }
+      .chapter-mark { font-size: 42px; }
+      .case-grid { grid-template-columns: 1fr; }
+      .review-mode { display: block; }
+      .legal-banner { grid-template-columns: 1fr; }
+      .legal-links { flex-wrap: wrap; }
+      .review-menu { position: static; grid-template-columns: repeat(3, 1fr); margin-bottom: 28px; }
+      .review-menu button { border-left: 0; border-bottom: 3px solid var(--rule); text-align: center; }
+      .review-menu button.active { border-bottom-color: var(--teal); }
+    }
+    @media (max-width: 600px) {
+      .masthead { justify-content: flex-end; padding: 10px 14px; }
+      .masthead > div:first-child { display: none; }
+      .actions { width: 168px; gap: 4px; justify-content: flex-end; }
+      .actions .icon-button { padding: 6px 8px; }
+      .content { padding: 28px 16px 80px; }
+      .hero { padding-bottom: 44px; }
+      .hero h1 { font-size: 36px; }
+      .hero-subtitle { font-size: 17px; }
+      .section-intro { grid-template-columns: 1fr; margin-top: 40px; }
+      .chapter-mark { font-size: 30px; }
+      .section-intro h2 { font-size: 31px; }
+      .prose h3 { font-size: 24px; }
+      .case-tools { top: 111px; grid-template-columns: 1fr 1fr; }
+      .case-tools input { grid-column: 1 / -1; }
+      .case-count { grid-column: 1 / -1; }
+      .case-topline { grid-template-columns: 46px minmax(0, 1fr); }
+      .case-topline .status { grid-column: 2; justify-self: start; }
+      .review-menu { grid-template-columns: 1fr; }
+      .review-menu button { text-align: left; }
+      .flashcard { min-height: 390px; }
+      .flash-face { padding: 36px 24px 64px; }
+      .flash-toolbar, .quiz-toolbar { align-items: stretch; flex-direction: column; }
+      .drawer { width: 100vw; padding: 20px; }
+      table { min-width: 620px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+    @media print {
+      .sidebar, .masthead, .tab-strip, .case-tools, .actions, .review-menu { display: none !important; }
+      .app-shell { display: block; }
+      .content { padding: 0; }
+      .tab-panel { display: block !important; break-before: page; }
+      .case-card { break-inside: avoid; }
+      .case-detail > div { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到主要內容</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="指南頁籤">
+      <p class="brand-kicker">SLD identification field guide</p>
+      <p class="brand-title">鑑定研判<br>實務指南</p>
+      <p class="brand-sub">從線索到證據鏈，再到可執行的服務決策。</p>
+      <nav class="tab-nav" role="tablist" aria-orientation="vertical">
+        <button class="tab-button" id="tab-traits" type="button" role="tab" aria-controls="panel-traits" aria-selected="true" tabindex="0" data-tab="traits"><span class="tab-index">01</span><span class="tab-label">各種障別的特質陳述</span></button><button class="tab-button" id="tab-exclusions" type="button" role="tab" aria-controls="panel-exclusions" aria-selected="false" tabindex="-1" data-tab="exclusions"><span class="tab-index">02</span><span class="tab-label">注意力、共病與排除因素</span></button><button class="tab-button" id="tab-tools" type="button" role="tab" aria-controls="panel-tools" aria-selected="false" tabindex="-1" data-tab="tools"><span class="tab-index">03</span><span class="tab-label">建議施測工具</span></button><button class="tab-button" id="tab-steps" type="button" role="tab" aria-controls="panel-steps" aria-selected="false" tabindex="-1" data-tab="steps"><span class="tab-index">04</span><span class="tab-label">七步驟研判程序</span></button><button class="tab-button" id="tab-cases" type="button" role="tab" aria-controls="panel-cases" aria-selected="false" tabindex="-1" data-tab="cases"><span class="tab-index">05</span><span class="tab-label">個案研討庫</span></button><button class="tab-button" id="tab-workshop" type="button" role="tab" aria-controls="panel-workshop" aria-selected="false" tabindex="-1" data-tab="workshop"><span class="tab-index">06</span><span class="tab-label">三日研習複習</span></button><button class="tab-button" id="tab-review" type="button" role="tab" aria-controls="panel-review" aria-selected="false" tabindex="-1" data-tab="review"><span class="tab-index">07</span><span class="tab-label">QA、概念閃卡、隨機選擇題</span></button>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="progress-line" aria-hidden="true"><span id="progress-line"></span></div>
+        <div class="progress-copy"><span>閱讀進度</span><span id="progress-copy">1 / 7</span></div>
+        <button class="source-open" type="button" data-open-drawer="sources">查看 S1–S12 來源</button>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="masthead">
+        <div>
+          <div class="mobile-current" id="mobile-current">各種障別的特質陳述</div>
+          <div class="masthead-meta">2026-07-08～10 進階心評研習 · 私有預覽</div>
+        </div>
+        <div class="actions">
+          <button class="icon-button theme-toggle" type="button" id="theme-toggle" title="切換為暗色模式" aria-label="切換為暗色模式">☾</button>
+          <button class="icon-button" type="button" data-open-drawer="sources" title="來源說明" aria-label="開啟來源說明">S1–S12</button>
+          <button class="icon-button notes-button" type="button" data-open-drawer="notes" title="私人筆記" aria-label="開啟私人筆記">✎</button>
+        </div>
+      </header>
+      <nav class="tab-strip" role="tablist" aria-label="指南頁籤">
+        <button type="button" role="tab" aria-controls="panel-traits" aria-selected="true" tabindex="0" data-tab="traits">1. 特質</button><button type="button" role="tab" aria-controls="panel-exclusions" aria-selected="false" tabindex="-1" data-tab="exclusions">2. 排除</button><button type="button" role="tab" aria-controls="panel-tools" aria-selected="false" tabindex="-1" data-tab="tools">3. 施測</button><button type="button" role="tab" aria-controls="panel-steps" aria-selected="false" tabindex="-1" data-tab="steps">4. 程序</button><button type="button" role="tab" aria-controls="panel-cases" aria-selected="false" tabindex="-1" data-tab="cases">5. 個案</button><button type="button" role="tab" aria-controls="panel-workshop" aria-selected="false" tabindex="-1" data-tab="workshop">6. 複習</button><button type="button" role="tab" aria-controls="panel-review" aria-selected="false" tabindex="-1" data-tab="review">7. 練習</button>
+      </nav>
+
+      <main class="content" id="main-content">
+        <section class="hero" aria-labelledby="guide-title">
+          <div>
+            <p class="eyebrow">特定學習障礙 · SLD</p>
+            <h1 id="guide-title">特定學習障礙（SLD）鑑定研判實務指南</h1>
+            <p class="hero-subtitle">從特質辨識、施測選擇、七步驟研判到個案分析</p>
+          </div>
+          <div class="hero-map">
+            <strong>先形成 picture，再完成證據鏈。</strong>
+            <p>24 個去識別個案 · 15 則 QA · 24 張閃卡 · 24 題互動練習</p>
+            <p class="privacy-note">僅供私有複習，不取代正式規範與鑑輔會決議。</p>
+          </div>
+        </section>
+        <aside class="legal-banner" aria-label="法規版本轉換提醒">
+          <div class="legal-date">查證日<br>2026-07-10</div>
+          <div class="legal-copy"><strong>當日仍適用 2024-04-29 版本。</strong><p>教育部 2026-04-01 修正的第 11、26 條，自 <strong>2026-08-01</strong> 才施行；正式送件須依會議日期與所在地主管機關規定重新核對。</p></div>
+          <div class="legal-links"><a href="https://edu.law.moe.gov.tw/LawContentHistory.aspx?hid=205548&amp;id=FL009187" target="_blank" rel="noreferrer">S11 當日有效版本</a><a href="https://edu.law.moe.gov.tw/LawContent.aspx?id=FL009187&amp;media=print" target="_blank" rel="noreferrer">S12 8/1 起施行</a></div>
+        </aside>
+
+        <section class="tab-panel active" id="panel-traits" role="tabpanel" aria-labelledby="tab-traits" data-panel="traits">
+          <div class="section-intro"><div class="chapter-mark">01</div><div><h2>各種障別的特質陳述</h2><p>先辨認閱讀、書寫與數學的功能 picture，再找支持與反證；sign 不是診斷。</p></div></div>
+          <div class="prose"><h3>本章要回答的問題</h3>
+<ul><li>第一眼看到哪些訊息，應提高對閱讀、書寫或數學障礙的敏銳度？</li><li>哪些表現是「學業困難的 sign」，但還不能直接判定障礙？</li><li>高能力、閱讀理解佳、抄寫正常或計算正確，為何仍可能有 SLD？</li><li>怎麼避免把所有低成就都塞進「混合型／Buffet」？</li></ul>
+<h3>共通核心：SLD 是一條證據鏈</h3>
+<p>SLD 不是低分清單，而是要能說清楚：</p>
+<aside class="callout"><p>可合理估計的能力存在 → 特定基本心理歷程有持續缺陷 → 缺陷能解釋特定學業困難 → 低成就具有非預期性 → 其他原因不是主要解釋。</p></aside>
+<h4>接案前 10 分鐘要先抓的五件事</h4>
+<ol><li><strong>主訴的最小單位</strong>：把「國語差」拆成注音、識字、解碼、流暢、理解、字形提取或書寫表達。</li><li><strong>時間軸</strong>：困難何時開始、是否跨年段持續、接受過什麼教學或介入、進步速度如何。</li><li><strong>條件差異</strong>：自讀／報讀、抄寫／自主書寫、限時／不限時、口語／手寫、有提示／無提示。</li><li><strong>相對優勢</strong>：口語推理、背景知識、視覺解題、實作能力或其他能支持能力估計的表現。</li><li><strong>競爭解釋</strong>：注意力、感官、語言文化、缺課、教學機會、情緒動機或整體能力，哪一項最可能改變結論。</li></ol>
+<h4>三層證據觀念</h4>
+<ul><li><strong>Sign</strong>：可觀察到的困難，例如讀得慢、常寫錯字、計算很久。它能提出假設，不能單獨完成鑑定。</li><li><strong>Deficit</strong>：在適切測量與質性比較中持續出現的基本心理歷程缺陷。</li><li><strong>Disability decision</strong>：deficit 能解釋特定學業困難，低成就具非預期性，其他因素又不足以成為主要原因。</li></ul>
+<h3>閱讀／識字／解碼／Dyslexia</h3>
+<h4>快速 picture</h4>
+<ul><li>注音、聲韻覺識、聲調、音節分解／組合或語音提取長期不穩。</li><li>識字量或解碼遠低於口語理解、推理與背景知識。</li><li>單字辨識、閱讀流暢與理解呈現不一致；報讀後理解明顯提升。</li><li>高能力學生可能靠整字記憶、上下文推論或大量死記補償，閱讀理解分數仍可維持。</li><li>說話知道概念卻叫不出精確詞彙，常用描述繞過命名困難。</li></ul>
+<h4>不要太快下結論</h4>
+<ul><li>注音差不等於 Dyslexia；要確認背後語音處理與長期識字／解碼影響。</li><li>閱讀理解低可能源於識字、流暢、斷詞、背景知識、語言理解或注意力，需拆開看。</li><li>中文每字都能念但句意理解差時，要檢查詞界線與斷詞，而非只寫「理解差」。</li></ul>
+<h4>閱讀現場要追問</h4>
+<ul><li>錯的是「不認得字」、把字念錯、念得太慢，還是念完不知道意思？</li><li>單字、句子與篇章的正確率／速度是否呈現不同圖型？</li><li>報讀後改善的是理解、作答速度，還是兩者都改善？</li><li>熟悉文本、多次閱讀或上下文豐富時是否明顯較好？若是，可能存在補償。</li><li>英文拼讀、中文注音與中文識字的困難是否指向共同語音／解碼機制，還是各有不同原因？</li></ul>
+<h3>書寫／字形提取／書寫表達</h3>
+<h4>快速 picture</h4>
+<ul><li>仿寫或抄寫可以，自主提取、聽寫、延宕再寫、作文或自發書寫明顯下降。</li><li>筆順不固定、字形與部件組織混亂、形近／同音字混淆、造出不合法字形。</li><li>字距、格線、標點、筆畫方向、握筆與出力不穩，或書寫速度極慢。</li><li>口述內容完整，手寫輸出短少、混亂或無法呈現原本想法。</li><li>持續抗拒書寫、遇到大量輸出便焦慮，可能是長期失敗後的次級反應。</li></ul>
+<h4>不要太快下結論</h4>
+<ul><li>抄寫正常不能排除書寫障礙，自主提取才是關鍵。</li><li>書寫差也可能由識字量、注意力、精細動作、練習不足或語言組織造成。</li><li>sign 必須長期持續、介入後仍存在並排除其他主要原因，才能從困難走到障礙。</li></ul>
+<h4>書寫現場要追問</h4>
+<ul><li>給字形模板後能不能寫？拿掉模板、延宕一段時間後又如何？</li><li>錯字是音近、形近、部件位置、筆畫方向、漏字，還是句法／篇章組織？</li><li>口述、打字、語音輸入與手寫的內容量、結構及詞彙差距多大？</li><li>書寫速度慢是字形提取、精細動作、完美主義、注意力，還是語言組織卡住？</li><li>經明確教學與反覆練習後，能否保持與泛化到未練過的字或情境？</li></ul>
+<h3>數學／數感／計算／解題</h3>
+<h4>快速 picture</h4>
+<ul><li>基本數量概念、數感、位值、大小關係、數線或估算長期不穩。</li><li>計算事實提取慢、步驟易遺失，工作記憶或處理速度明顯拖累表現。</li><li>視空間、策略選擇、規劃與錯誤監控影響幾何、直式運算或文字題。</li><li>正確率尚可但耗時異常，需區分「會但慢」與核心數學概念缺陷。</li><li>文字題差可能是閱讀解碼或語言理解，而非數學本身。</li></ul>
+<h4>不要太快下結論</h4>
+<ul><li>數學成績低不等於數學障礙；必須指出哪個歷程缺陷如何影響特定數學任務。</li><li>不同測驗差距大時，要先檢查速度、題型、閱讀負荷、教學機會與動機。</li><li>國中才出現的全面數學低落，需追查國小紀錄與介入反應。</li></ul>
+<h4>數學現場要追問</h4>
+<ul><li>錯誤集中在數量概念、位值、事實提取、演算步驟、題意理解或策略監控？</li><li>給數線、具體物、步驟卡或報讀後，哪一段表現改變？</li><li>簡單題錯、困難題反而對，是否反映注意力、策略或作答不一致？</li><li>正確率與速度是否同時低？若只慢不錯，服務需求與核心假設可能不同。</li><li>同一概念換題型、換表徵或延宕後是否仍能使用？</li></ul>
+<h3>混合表現與 Buffet 型個案</h3>
+<p>當閱讀、書寫、數學都低，不代表三個亞型都成立。先問：</p>
+<ul><li>是否整體能力偏低或測驗代表性不足？</li><li>是否存在一個上游 primary deficit 同時影響多領域？</li><li>各亞型是否都有獨立而充分的學業與歷程證據？</li><li>送件主訴是否太廣，造成施測沒有焦點？</li><li>資源班能否提出對應每個亞型的具體介入？</li></ul>
+<h4>判斷混合型前的拆解順序</h4>
+<ol><li>先找一個最清楚、最具功能影響的主訴。</li><li>檢查是否有共同上游因素，例如注意力、處理速度、語言或整體能力。</li><li>分別為每個候選亞型建立 Step 1～Step 6；不能共用一句「很多都低」。</li><li>只保留證據鏈完整、且服務能對準的亞型。</li><li>其餘困難放在介入需求與待補資料，不必為了描述完整而全部變成障礙標籤。</li></ol>
+<h3>快速 Picture 對照表</h3>
+<div class="table-wrap"><table><thead><tr><th>看到的表現</th><th>優先想到</th><th>同時查證</th></tr></thead><tbody><tr><td>報讀後理解大幅提升</td><td>識字／解碼</td><td>聲韻覺識、快速念名、流暢、注意力</td></tr><tr><td>抄寫佳但聽寫／自發書寫差</td><td>字形提取／書寫</td><td>識字量、延宕提取、語言組織、練習</td></tr><tr><td>每字能念但整句不懂</td><td>斷詞／流暢／語言理解</td><td>詞界線、背景詞彙、工作記憶</td></tr><tr><td>計算正確但極慢</td><td>處理速度／事實提取</td><td>數感、工作記憶、閱讀負荷</td></tr><tr><td>高智力但注音與拼讀極弱</td><td>Dyslexia 補償型</td><td>整字策略、口語理解、英文拼讀、長期歷程</td></tr><tr><td>全科低、動機低、資料零散</td><td>排除因素／非特風險</td><td>教學、缺課、能力估計、介入、家庭與情緒</td></tr></tbody></table></div>
+<h3>從訊息到假設：快速轉譯範例</h3>
+<div class="table-wrap"><table><thead><tr><th>原始描述</th><th>不足之處</th><th>可檢驗的假設</th></tr></thead><tbody><tr><td>他閱讀很差</td><td>範圍太大</td><td>自讀低、報讀佳，優先檢查識字／解碼與流暢</td></tr><tr><td>他常寫錯字</td><td>沒有功能比較</td><td>抄寫佳、聽寫與延宕提取差，檢查字形提取</td></tr><tr><td>他數學都不會</td><td>未拆題型</td><td>基本數量關係與位值弱，檢查數感；文字題另控制閱讀負荷</td></tr><tr><td>他就是不專心</td><td>缺乏情境與頻率</td><td>比較跨情境、任務長度與注意支持前後，判斷注意力是否足以解釋特定困難</td></tr><tr><td>他智力不低</td><td>不能取代證據鏈</td><td>說明哪些能力資料具代表性，再建立 deficit、因果與非預期性</td></tr></tbody></table></div>
+<h3>一頁 Picture 的建議寫法</h3>
+<aside class="callout"><p>學生的主要功能困難出現在＿＿；在＿＿條件下明顯改善／惡化。其相對優勢為＿＿，目前最可能的核心瓶頸為＿＿。支持證據包括＿＿，但仍需釐清＿＿競爭解釋。下一步以＿＿比較／介入／補件驗證，暫不把＿＿直接視為結論。</p></aside></div><div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S1" title="SLD 定義、七步驟與基本心理歷程（內部講義整理）">S1</button><button class="citation" type="button" data-source="S4" title="Day 1 課程與個案 1–6 摘要">S4</button><button class="citation" type="button" data-source="S6" title="Day 2 個案 7–11、13–14 摘要">S6</button><button class="citation" type="button" data-source="S7" title="Day 3 Dyslexia、書寫、服務與個案摘要">S7</button></div>
+        </section>
+
+        <section class="tab-panel" id="panel-exclusions" role="tabpanel" aria-labelledby="tab-exclusions" data-panel="exclusions" hidden>
+          <div class="section-intro"><div class="chapter-mark">02</div><div><h2>注意力、共病與排除因素</h2><p>辨別主要原因、共病與次級反應，避免把 attention 當成萬用解釋。</p></div></div>
+          <div class="prose"><h3>核心原則</h3>
+<p>排除因素不是看到一項就把 SLD 排掉，而是判斷它是否足以成為學業困難的<strong>主要原因</strong>。SLD 也可能和 ADD／ADHD、情緒、動作、語言或其他問題共存。</p>
+<h3>ADD／ADHD 與 SLD</h3>
+<ul><li>「容易分心」不是充分證據；需有跨情境、持續性、頻率、任務條件與功能影響。</li><li>查醫療資料、家長／教師量表、課堂觀察、施測行為、服藥前後與不同時間點的一致性。</li><li>注意力可能讓 WISC-V、成就測驗、速度與正確率前後不一致，但不能自動解釋所有特定解碼、字形提取或數感缺陷。</li><li>若 ADD／ADHD 已確認，仍要指出它主要影響哪個學業領域；不能只寫注意力問題而沒有學業功能分析。</li></ul>
+<h4>注意力與 SLD 的四種可能關係</h4>
+<div class="table-wrap"><table><thead><tr><th>關係</th><th>典型資料型態</th><th>研判重點</th></tr></thead><tbody><tr><td>注意力是主要原因</td><td>多領域、跨任務不穩；注意支持後學業缺陷大幅縮小</td><td>SLD 的特定性與持續 deficit 是否仍成立</td></tr><tr><td>SLD 是主要原因</td><td>注意力大致可控，但特定解碼、字形提取或數感缺陷持續</td><td>不要因零星分心而排除 SLD</td></tr><tr><td>共病</td><td>注意支持後，特定學業缺陷仍清楚存在</td><td>分別說明兩條功能影響與服務路徑</td></tr><tr><td>次級反應</td><td>只在高失敗率的特定學業任務逃避、放棄或焦慮</td><td>先處理核心學業瓶頸，再看行為是否改善</td></tr></tbody></table></div>
+<h4>最低可用注意力證據</h4>
+<ul><li>至少兩種情境或兩位熟悉學生的觀察者，不只依一次施測印象。</li><li>寫明前因、任務長度、頻率、持續時間、提示後反應與實際功能影響。</li><li>比較有支持與無支持、短任務與長任務、高興趣與低興趣，避免只貼「分心」標籤。</li><li>若有醫療或用藥資料，只摘要與學業功能直接相關的變化，不複製可識別醫療細節。</li></ul>
+<h3>能力偏低與智能障礙</h3>
+<ul><li>FSIQ 不應脫離指數差異、測驗行為、語言文化與優勢能力單獨使用。</li><li>能力與成就同步偏低，且缺少特定歷程弱點時，SLD 的「非預期」較難成立。</li><li>能力估計若不具代表性，應補質性資料、適當替代指標或重新評估，不要硬用單一數字分類。</li></ul>
+<h3>文化、語言與家庭背景</h3>
+<ul><li>家庭語言不同不代表必然是文化不利；要看在校時間、教學語言暴露、口語溝通與跨語言表現。</li><li>家庭支持不足可能加重困難，但孩子無法選擇家庭；需判斷核心缺陷是否在充分學校介入下仍存在。</li><li>避免把文化／家庭變成方便的排除標籤，也避免完全忽略真實學習機會不足。</li></ul>
+<h3>教學、出席、練習與介入</h3>
+<ul><li>確認是否有足夠、對準核心困難、可記錄強度與持續時間的介入。</li><li>作業完成不等於有效介入；要看策略、回饋、進步速度與泛化。</li><li>長期缺課、轉學、未接受適切教學或練習量極低時，先補學習機會再判定。</li><li>疑似身分必須搭配具體介入與再確認條件，不是把問題延後一年。</li></ul>
+<h3>情緒、動機與 3C 使用</h3>
+<ul><li>低動機可能是主要原因，也可能是長期失敗後的結果。</li><li>碰到特定閱讀／書寫任務才焦慮或逃避，反而可能是功能性困難的線索。</li><li>手機使用時間長不能單獨解釋特定學習缺陷；需與學習歷程、介入反應及其他領域表現一起看。</li></ul>
+<h3>感官、動作與健康因素</h3>
+<ul><li>未矯正視力、聽力、動作協調、睡眠、藥物或健康狀況可能影響測驗代表性。</li><li>感官或動作問題存在時，仍要判斷它能否完整解釋閱讀、書寫或數學表現。</li><li>施測條件不適切時，先調整條件或補評估，避免把 access 問題誤判成能力缺陷。</li></ul>
+<h3>排除因素決策矩陣</h3>
+<div class="table-wrap"><table><thead><tr><th>因素</th><th>先查什麼</th><th>若它是主要原因，通常會看到</th><th>仍可能支持 SLD 的反證</th></tr></thead><tbody><tr><td>整體能力偏低</td><td>能力代表性、適應／課堂功能、跨領域表現</td><td>能力與多領域成就大致同步低落</td><td>存在明確特定 deficit、條件差異與不成比例的學業困難</td></tr><tr><td>注意力</td><td>跨情境觀察、任務條件、介入／治療前後</td><td>多任務普遍不穩，支持後大幅改善</td><td>支持後仍有穩定的解碼、字形提取或數感缺陷</td></tr><tr><td>教學／缺課</td><td>出席、課程接觸、介入強度與 fidelity</td><td>困難與未教、缺席或練習不足高度一致</td><td>接受充分對準介入後仍進步緩慢且缺陷特定</td></tr><tr><td>語言文化</td><td>語言暴露、在校時間、跨語言口語與讀寫</td><td>困難廣泛反映第二語言接觸不足</td><td>長期充分暴露後仍有跨語言或特定語音／解碼缺陷</td></tr><tr><td>感官／動作</td><td>矯正狀態、access 調整與功能評估</td><td>調整後困難明顯解除</td><td>access 改善後仍有特定學業 deficit</td></tr><tr><td>情緒／動機</td><td>發生情境、時間軸、成功任務與失敗任務差異</td><td>多領域與多活動皆受影響</td><td>問題集中在特定高負荷學業任務，且早於逃避反應</td></tr></tbody></table></div>
+<h3>排除分析的報告句型</h3>
+<aside class="callout"><p>雖觀察到＿＿因素，但其主要影響表現在＿＿；在＿＿條件控制／改善後，學生仍持續出現＿＿特定困難，因此目前判斷該因素為共病／部分影響，而不足以完整解釋 SLD 證據鏈。</p></aside>
+<p>若反方向成立：</p>
+<aside class="callout"><p>目前＿＿因素尚未得到足夠控制，且可同時解釋＿＿與＿＿表現；現有資料無法證明獨立而持續的 primary deficit，故暫不確認 SLD，先完成＿＿介入與＿＿資料蒐集後再評。</p></aside>
+<h3>確認、疑似、待觀察與非特</h3>
+<div class="table-wrap"><table><thead><tr><th>結論</th><th>適用情況</th><th>必須附帶</th></tr></thead><tbody><tr><td>確認 SLD</td><td>因果鏈完整，排除因素不足以成為主要原因</td><td>明確亞型、primary deficit、服務需求</td></tr><tr><td>疑似</td><td>SLD 線索強，但介入、歷程或特定證據仍不足</td><td>具體介入、補件項目、再評時間</td></tr><tr><td>待觀察</td><td>表現不穩或現場資料不足，尚不能合理選邊</td><td>觀察焦點、資料責任人、期限</td></tr><tr><td>非特</td><td>特定缺陷與非預期性不成立，或其他原因較能解釋</td><td>仍可提供一般教育、學扶或輔導支持</td></tr></tbody></table></div>
+<h3>排除因素追問清單</h3>
+<ul><li>這個因素能解釋全部困難，還是只解釋其中一部分？</li><li>困難在該因素改善或控制後仍存在嗎？</li><li>困難是否具有特定性、長期性與跨情境一致性？</li><li>有沒有充分而對準的介入證據？</li><li>若給身分，服務的著力點是什麼？若不給，學生仍能獲得什麼支持？</li></ul>
+<h3>常見誤判</h3>
+<ul><li>把「有 ADHD 診斷」直接等同「所有低成就都由 ADHD 造成」。</li><li>用一次施測坐不住，取代跨情境與長期功能資料。</li><li>把家庭支持不足當作停止鑑定的理由，卻沒有檢查學校是否提供充分介入。</li><li>因學生高能力或能補償，就忽略其解碼、書寫提取或速度成本。</li><li>判疑似後只寫「持續觀察」，沒有責任人、介入強度、期限與翻案條件。</li></ul></div><div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S4" title="Day 1 課程與個案 1–6 摘要">S4</button><button class="citation" type="button" data-source="S6" title="Day 2 個案 7–11、13–14 摘要">S6</button><button class="citation" type="button" data-source="S7" title="Day 3 Dyslexia、書寫、服務與個案摘要">S7</button></div>
+        </section>
+
+        <section class="tab-panel" id="panel-tools" role="tabpanel" aria-labelledby="tab-tools" data-panel="tools" hidden>
+          <div class="section-intro"><div class="chapter-mark">03</div><div><h2>建議施測工具</h2><p>每個工具都必須回答一個明確問題；分數、錯誤型態、速度與條件差異一起看。</p></div></div>
+          <div class="prose"><h3>使用原則</h3>
+<ul><li>先從主訴與現場表現形成假設，再選擇能驗證或推翻假設的工具。</li><li>不追求「測驗全餐」；每個測驗都要回答一個明確問題。</li><li>標準化分數、錯誤型態、速度、策略、條件差異與介入反應要一起看。</li><li>測驗名稱、版本、常模年齡、分數類型與解釋限制以正式手冊及縣市現行規範為準。</li></ul>
+<h3>能力估計</h3>
+<div class="table-wrap"><table><thead><tr><th>想回答的問題</th><th>工具／資料</th><th>判讀提醒</th></tr></thead><tbody><tr><td>整體與分項能力如何？</td><td>WISC-V 或現行適齡智力量表</td><td>檢查 FSIQ 代表性、VCI／VSI／FRI／WMI／PSI 差異與施測行為</td></tr><tr><td>是否有可用優勢支撐非預期性？</td><td>指數、分測驗、課堂與問題解決表現</td><td>不以單一高分取代整體證據</td></tr><tr><td>低分是否受注意、語言、感官影響？</td><td>行為觀察、重測／補測、跨情境資料</td><td>先確認測量條件與代表性</td></tr></tbody></table></div>
+<h3>閱讀與 Dyslexia</h3>
+<div class="table-wrap"><table><thead><tr><th>假設</th><th>建議蒐集</th><th>觀察重點</th></tr></thead><tbody><tr><td>音韻處理／注音困難</td><td>聲韻覺識、聲調、音節分解／組合、注音認讀與拼讀</td><td>錯誤類型、速度、教學後保持</td></tr><tr><td>字詞提取與自動化困難</td><td>快速念名、詞彙提取</td><td>熟悉刺激仍慢、命名繞路</td></tr><tr><td>識字／解碼困難</td><td>中文年級認字、識字量、單字／非字解碼</td><td>整字補償、形音連結、錯字型態</td></tr><tr><td>閱讀流暢困難</td><td>單字、短文流暢與限時閱讀</td><td>正確率與速度分開看</td></tr><tr><td>閱讀理解困難</td><td>自讀、報讀與口語理解比較</td><td>報讀增益、斷詞、背景詞彙</td></tr></tbody></table></div>
+<h3>書寫</h3>
+<div class="table-wrap"><table><thead><tr><th>假設</th><th>建議蒐集</th><th>觀察重點</th></tr></thead><tbody><tr><td>字形提取</td><td>聽寫、自主書寫、延宕再寫</td><td>抄寫與自主提取差異</td></tr><tr><td>字形／部件處理</td><td>錯字分析、部件與筆順觀察</td><td>形近／同音、非法組字、方向位置</td></tr><tr><td>書寫流暢</td><td>限時抄寫、書寫速度、格線與字距</td><td>速度、出力、疲勞、可讀性</td></tr><tr><td>書寫表達</td><td>口述、手寫、打字／語音輸入作文比較</td><td>想法、組織、詞彙與輸出瓶頸</td></tr></tbody></table></div>
+<h3>數學</h3>
+<div class="table-wrap"><table><thead><tr><th>假設</th><th>建議蒐集</th><th>觀察重點</th></tr></thead><tbody><tr><td>數感／數量概念</td><td>數學核心能力、數量比較、位值、數線、估算</td><td>是否為核心且持續弱項</td></tr><tr><td>計算事實與程序</td><td>基本運算、限時／不限時比較、錯誤分析</td><td>事實提取、步驟遺失、速度</td></tr><tr><td>工作記憶／處理速度</td><td>WMI／PSI、口頭與書面計算比較</td><td>是否足以解釋數學任務</td></tr><tr><td>視空間／執行功能</td><td>幾何、排列、策略與錯誤監控</td><td>規劃、表徵、策略選擇</td></tr><tr><td>文字題</td><td>報讀與自讀比較、語言理解</td><td>排除閱讀負荷後是否仍困難</td></tr></tbody></table></div>
+<h3>注意力與排除因素</h3>
+<ul><li>教師／家長量表與跨情境觀察。</li><li>ABA 或具體行為取樣：前因、行為、後果、頻率、持續時間與任務條件。</li><li>服藥前後、上午／下午、個別／團體與高興趣／低興趣任務比較。</li><li>出席、轉學、學習扶助、介入強度、作業樣本、教學方式與進步曲線。</li><li>視力、聽力、動作、語言文化與健康資料。</li></ul>
+<h3>質性佐證必備比較</h3>
+<ul><li>口語 vs 手寫</li><li>抄寫 vs 自主提取</li><li>自讀 vs 報讀</li><li>限時 vs 不限時</li><li>剛教完 vs 延宕後</li><li>一對一 vs 班級情境</li><li>有策略／輔具 vs 無策略／輔具</li><li>介入前 vs 介入後</li></ul>
+<h3>研習講義列出的常用測驗</h3>
+<h4>初篩共同輪廓</h4>
+<div class="table-wrap"><table><thead><tr><th>目的</th><th>講義列出工具</th><th>主要追問</th></tr></thead><tbody><tr><td>識字</td><td>中文年級認字量表</td><td>識字低是否連動跨科閱讀與作答？</td></tr><tr><td>閱讀理解</td><td>2019 閱讀理解測驗</td><td>是識字、流暢、理解、聽覺理解或注意力造成？</td></tr><tr><td>數學計算</td><td>2019 基礎數學計算評量</td><td>是數感、事實提取、策略、速度或題意理解造成？</td></tr></tbody></table></div>
+<h4>閱讀：識字正確與流暢</h4>
+<div class="table-wrap"><table><thead><tr><th>工具</th><th>研習用途</th><th>限制／搭配</th></tr></thead><tbody><tr><td>中文年級認字量表</td><td>建立識字基本輪廓</td><td>搭配作業、報讀前後與跨科表現</td></tr><tr><td>識字量評估測驗</td><td>確認識字量</td><td>與年級、教學機會及流暢分開解讀</td></tr><tr><td>常見字流暢性測驗</td><td>檢查熟字自動化與速度</td><td>建議搭配快速自動化唸名</td></tr><tr><td>快速自動化唸名測驗</td><td>檢查快速提取與解碼自動化</td><td>不是單獨診斷；要連到閱讀速度與真實任務</td></tr><tr><td>國小注音符號能力診斷測驗</td><td>注音認讀、聽寫與拼讀基礎</td><td>適用年級在講義欄位不一致，依正式手冊</td></tr><tr><td>聲韻覺識測驗</td><td>語音敏感度與操弄</td><td>低年級風險與 Dyslexia picture 的一部分</td></tr><tr><td>識字診斷測驗</td><td>其他識字資料仍無法解釋時進一步診斷</td><td>講義建議先有識字問題線索再使用</td></tr></tbody></table></div>
+<h4>閱讀理解與口語理解</h4>
+<div class="table-wrap"><table><thead><tr><th>工具</th><th>研習用途</th><th>限制／搭配</th></tr></thead><tbody><tr><td>2019 閱讀理解測驗</td><td>初篩閱讀理解</td><td>適用年級依正式題本；先排識字負荷</td></tr><tr><td>國民小學閱讀理解測驗</td><td>國小文本理解</td><td>搭配識字與聽覺理解</td></tr><tr><td>國民中學閱讀推理測驗</td><td>國中高層次閱讀推理</td><td>題目偏難，結果解釋需保守</td></tr><tr><td>中文閱讀理解測驗</td><td>估計閱讀理解與年齡水準</td><td>題量與施測負荷需考量</td></tr><tr><td>閱讀理解診斷測驗</td><td>深入檢查閱讀理解問題</td><td>先確認識字問題，避免入口困難混入</td></tr><tr><td>聽覺理解測驗</td><td>區分文字理解與口語理解</td><td>注意力可能影響結果，需搭配日常聽指令觀察</td></tr></tbody></table></div>
+<h4>書寫</h4>
+<div class="table-wrap"><table><thead><tr><th>工具</th><th>研習用途</th><th>限制／搭配</th></tr></thead><tbody><tr><td>基本讀寫字綜合測驗</td><td>低年級認字、寫字與自發書寫</td><td>講義常模重點在低年級；高年級增加多情境比較</td></tr><tr><td>書寫表達診斷測驗</td><td>寫字與書寫表達</td><td>附實際作業、作文與錯誤分析</td></tr><tr><td>國小注音符號能力診斷測驗</td><td>區辨注音、拼寫與書寫基礎</td><td>不用單一注音低分推論書寫障礙</td></tr></tbody></table></div>
+<p>高於低年級常模時，講義特別建議比較：自行寫作 vs 電腦打字、手寫 vs 口語作文、限時 vs 不限時，以及練習量與維持效果。</p>
+<h4>數學</h4>
+<div class="table-wrap"><table><thead><tr><th>工具</th><th>研習用途</th><th>限制／搭配</th></tr></thead><tbody><tr><td>2019 基礎數學計算評量</td><td>計算初篩</td><td>低落後再拆數感、事實提取、策略與速度</td></tr><tr><td>基本數學核心能力測驗</td><td>數感、數學概念與計算</td><td>適合檢查核心數學能力，不單看總分</td></tr><tr><td>數學診斷測驗</td><td>數學概念與計算的深入診斷</td><td>題目偏難；搭配初篩、能力資料與質性錯誤</td></tr></tbody></table></div>
+<p>應用題表現低時，先比較報讀與自讀，排除識字／閱讀理解；計算低時記錄位值錯誤、使用手指或點算、策略、速度、心理運算與教學後成效。</p>
+<h4>注意力</h4>
+<div class="table-wrap"><table><thead><tr><th>工具／資料</th><th>用途</th><th>限制／搭配</th></tr></thead><tbody><tr><td>問題行為篩選量表</td><td>過動與注意力風險篩選</td><td>由熟悉學生者填寫；不能單獨診斷</td></tr><tr><td>醫療評估與介入資料</td><td>釐清 ADD／ADHD 與功能影響</td><td>查用藥／行為介入前後，不複製可識別醫療資料</td></tr><tr><td>分段考試與課堂觀察</td><td>檢查持續注意對學業表現的影響</td><td>同時看核心讀寫算缺陷是否仍存在</td></tr></tbody></table></div>
+<h3>年級與切截分數注意</h3>
+<ul><li>講義部分投影片對 <code>2019 閱讀理解測驗</code> 與 <code>國小注音符號能力診斷測驗</code> 的適用年級不一致。</li><li>講義提到的切截分數、標準差與差距值只作研習線索；正式施測須依當前測驗手冊、題本、常模與南投縣現行規定。</li><li>某些測驗可能有借用、證書或施測資格要求；使用前確認現行規範。</li></ul></div><div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S3" title="障別與施測工具對照（講義 OCR 校正）">S3</button><button class="citation" type="button" data-source="S5" title="Day 2 閱讀、書寫、數學與七步驟講義整理">S5</button></div>
+        </section>
+
+        <section class="tab-panel" id="panel-steps" role="tabpanel" aria-labelledby="tab-steps" data-panel="steps" hidden>
+          <div class="section-intro"><div class="chapter-mark">04</div><div><h2>七步驟研判程序</h2><p>每一步都要有一句話證據、反證與下一步。找不到 Step 3，就不要硬湊 Step 4。</p></div></div>
+          <div class="evidence-rail" aria-label="七步驟證據鏈">
+            <div class="rail-step"><div><h3>確認學業表現問題</h3><p>把困難拆成識字、解碼、流暢、理解、字形提取、書寫表達、數感、計算或解題。</p><label class="rail-check"><input type="checkbox" data-step-check="0">已能用自己的個案說明</label></div></div><div class="rail-step"><div><h3>估計能力</h3><p>整合指數、優勢、課堂表現與施測行為，確認資料代表性。</p><label class="rail-check"><input type="checkbox" data-step-check="1">已能用自己的個案說明</label></div></div><div class="rail-step"><div><h3>找出 primary deficit</h3><p>用標準化與質性資料互證真正的核心基本心理歷程。</p><label class="rail-check"><input type="checkbox" data-step-check="2">已能用自己的個案說明</label></div></div><div class="rail-step"><div><h3>連結缺陷與學業困難</h3><p>說明機制，不只把兩個低分放在同一句。</p><label class="rail-check"><input type="checkbox" data-step-check="3">已能用自己的個案說明</label></div></div><div class="rail-step"><div><h3>確認非預期低成就</h3><p>比較能力、學習機會、長期歷程與介入反應。</p><label class="rail-check"><input type="checkbox" data-step-check="4">已能用自己的個案說明</label></div></div><div class="rail-step"><div><h3>排除其他主要原因</h3><p>判斷智能、感官、文化、教學、情緒、動機與注意力是否更能解釋。</p><label class="rail-check"><input type="checkbox" data-step-check="5">已能用自己的個案說明</label></div></div><div class="rail-step"><div><h3>形成結論與服務連結</h3><p>寫出亞型、證據限制、介入、accommodation 與再評條件。</p><label class="rail-check"><input type="checkbox" data-step-check="6">已能用自己的個案說明</label></div></div>
+          </div>
+          <div class="prose"><h3>Step 1：確認學業表現問題</h3>
+<p><strong>核心問題：</strong>學生在哪個學業領域有明顯且功能性的困難？</p>
+<p>蒐集成就測驗、平時／段考、作業樣本、教師主訴、錯誤型態、速度與不同支持條件下的表現。先拆成識字／解碼、流暢、理解、字形提取、書寫表達、數感、計算與解題，避免只寫「國語差」或「數學差」。</p>
+<p><strong>停損點：</strong>沒有具體主訴或資料互相矛盾時，先補資料，不急著選亞型。</p>
+<p><strong>本步驟交付物：</strong>一段功能性主訴，寫清楚領域、任務、錯誤／速度特徵、持續時間與已接受支持。</p>
+<h3>Step 2：估計能力</h3>
+<p><strong>核心問題：</strong>學生合理可期待的學習能力為何？</p>
+<p>使用整體與分項能力、優勢領域、課堂表現、施測行為與文化語言背景評估測驗代表性。FSIQ 是證據之一，不是唯一答案。</p>
+<p><strong>停損點：</strong>能力估計不穩或整體偏低時，後續「非預期」與特定性需更謹慎。</p>
+<p><strong>本步驟交付物：</strong>能力估計的依據與限制，包含哪些指標具代表性、哪些可能受注意／語言／感官影響。</p>
+<h3>Step 3：找出 primary deficit</h3>
+<p><strong>核心問題：</strong>哪個基本心理歷程最能解釋困難？</p>
+<p>可能包括音韻處理、語言、記憶與注意、處理速度、視空間、字形處理、知覺動作或執行功能。要用標準化與質性資料互證，不把 WISC-V 單一低指數直接當成診斷。</p>
+<p><strong>停損點：</strong>找不到 primary deficit 時，不要用「很多地方都有點低」硬湊 Step 3。</p>
+<p><strong>本步驟交付物：</strong>一個優先假設、一個競爭假設，以及各自的支持與反證。</p>
+<h3>Step 4：連結缺陷與學業困難</h3>
+<p><strong>核心問題：</strong>Step 3 的缺陷如何具體造成 Step 1 的表現？</p>
+<p>可使用因果句：</p>
+<aside class="callout"><p>學生在＿＿歷程持續有困難，導致其在＿＿任務中出現＿＿錯誤／速度／策略特徵，並在＿＿條件比較中得到支持。</p></aside>
+<p><strong>停損點：</strong>只能同時列出兩個低分，卻無法說明機制，不算完成 Step 4。</p>
+<p><strong>本步驟交付物：</strong>至少一組條件比較或錯誤型態，證明 deficit 如何在真實學業任務中發生作用。</p>
+<h3>Step 5：確認非預期低成就</h3>
+<p><strong>核心問題：</strong>相對於可合理估計的能力與學習機會，這個低成就是不是不應該發生到這個程度？</p>
+<p>不要只用單一差距公式。整合能力優勢、長期歷程、介入反應、特定性與條件比較。</p>
+<p><strong>停損點：</strong>只有「能力正常、成績低」兩句話，卻沒有長期性、介入反應或特定性，仍不足以完成 Step 5。</p>
+<p><strong>本步驟交付物：</strong>說明為何依學生能力、學習機會與支持條件，現有低成就仍超出合理預期。</p>
+<h3>Step 6：排除其他主要原因</h3>
+<p><strong>核心問題：</strong>智能、感官、文化語言、情緒、動機、教學機會、缺課、家庭、注意力或健康，是否更能完整解釋困難？</p>
+<p>排除不是要求學生沒有任何其他問題，而是判斷其他問題是否為主要原因、共病或次級結果。</p>
+<p><strong>停損點：</strong>只列「已排除視聽覺、情緒、文化」但沒有資料來源，不算排除。</p>
+<p><strong>本步驟交付物：</strong>逐項寫出競爭解釋、資料依據、影響範圍，以及為何足以／不足以完整解釋困難。</p>
+<h3>Step 7：形成研判結論與服務連結</h3>
+<p><strong>核心問題：</strong>資料支持哪個亞型與決策？服務如何對應？</p>
+<p>建議鑑定句骨架：</p>
+<aside class="callout"><p>綜合資料顯示，學生在＿＿學業領域有持續且顯著困難；其＿＿基本心理歷程缺陷可合理解釋上述表現，且相對於＿＿能力／學習機會呈現非預期低成就。排除＿＿為主要原因後，研判符合／疑似＿＿型學習障礙。建議提供＿＿介入與＿＿評量調整。</p></aside>
+<p>若證據不足，應寫出「目前不能確認的原因、缺少哪些資料、要做什麼介入、何時重新確認」，而不是只寫疑似。</p>
+<p><strong>本步驟交付物：</strong>決策、亞型、信心、服務需求、accommodation、補件與追蹤期限。</p>
+<h3>七步驟不是直線，而是可回頭修正的證據迴圈</h3>
+<ul><li>Step 4 連不起來，回到 Step 1 拆細主訴，或回到 Step 3 重找 deficit。</li><li>Step 5 不成立，回查能力代表性、學習機會與介入反應，不要只調整文字。</li><li>Step 6 出現強競爭解釋，先控制條件或補觀察，再重新檢查 Step 3～5。</li><li>Step 7 無法提出對應服務，通常表示亞型或功能假設仍太籠統。</li></ul>
+<h3>送件前的五分鐘壓力測試</h3>
+<ol><li>拿掉所有測驗名稱後，是否仍能用功能語言說清楚學生怎麼卡住？</li><li>每個低分是否都有角色，還是只是堆資料？</li><li>有沒有一項反證若成立會翻轉結論？目前如何處理？</li><li>疑似／確認／非特的理由，是否能讓另一位心評依同資料重建？</li><li>建議的介入與 accommodation，是否直接對應核心 deficit，而非通用清單？</li></ol>
+<h3>常見失敗模式與修正</h3>
+<div class="table-wrap"><table><thead><tr><th>失敗模式</th><th>問題</th><th>修正</th></tr></thead><tbody><tr><td>低成就直接等於 SLD</td><td>缺 Step 2～6</td><td>建立能力、deficit、因果、非預期與排除證據</td></tr><tr><td>WMI／PSI 低就指定亞型</td><td>指數不等同功能機制</td><td>回到真實任務與條件比較</td></tr><tr><td>三種亞型都寫</td><td>每一條證據鏈不完整</td><td>分別建鏈，只保留能獨立成立者</td></tr><tr><td>疑似但無計畫</td><td>把不確定性延後</td><td>寫介入、資料責任人、期限與翻案條件</td></tr><tr><td>建議全是延長時間</td><td>未對準 deficit</td><td>指出輸入、輸出、速度或策略的具體瓶頸</td></tr></tbody></table></div>
+<h3>四種結論的最小寫作規格</h3>
+<div class="table-wrap"><table><thead><tr><th>結論</th><th>最少要說清楚</th></tr></thead><tbody><tr><td>確認</td><td>亞型、primary deficit、因果鏈、非預期性、排除理由、服務需求</td></tr><tr><td>疑似</td><td>強線索、尚缺證據、立即介入、補件、再評時間與支持／反駁條件</td></tr><tr><td>待觀察</td><td>哪些表現不穩、觀察情境、資料蒐集者與期限</td></tr><tr><td>非特</td><td>哪一段證據鏈不成立、何種解釋較合理、仍可提供哪些一般教育支持</td></tr></tbody></table></div>
+<h3>七步驟稽核表</h3>
+<div class="table-wrap"><table><thead><tr><th>步驟</th><th>一句話證據</th><th>反證／替代解釋</th><th>信心</th><th>下一步</th></tr></thead><tbody><tr><td>1 學業困難</td><td></td><td></td><td></td><td></td></tr><tr><td>2 能力估計</td><td></td><td></td><td></td><td></td></tr><tr><td>3 primary deficit</td><td></td><td></td><td></td><td></td></tr><tr><td>4 因果連結</td><td></td><td></td><td></td><td></td></tr><tr><td>5 非預期</td><td></td><td></td><td></td><td></td></tr><tr><td>6 排除</td><td></td><td></td><td></td><td></td></tr><tr><td>7 結論／服務</td><td></td><td></td><td></td><td></td></tr></tbody></table></div></div><div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S1" title="SLD 定義、七步驟與基本心理歷程（內部講義整理）">S1</button><button class="citation" type="button" data-source="S4" title="Day 1 課程與個案 1–6 摘要">S4</button><button class="citation" type="button" data-source="S5" title="Day 2 閱讀、書寫、數學與七步驟講義整理">S5</button></div>
+        </section>
+
+        <section class="tab-panel" id="panel-cases" role="tabpanel" aria-labelledby="tab-cases" data-panel="cases" hidden>
+          <div class="section-intro"><div class="chapter-mark">05</div><div><h2>個案研討庫</h2><p>先讀快速 picture 自行研判，再展開七步驟、分歧、教授結論、補件與可泛化原則。</p></div></div>
+          <div class="case-tools" aria-label="個案篩選">
+            <input class="field" type="search" id="case-search" placeholder="搜尋 Dyslexia、數感、注意力、書寫…" aria-label="搜尋個案">
+            <select class="field" id="day-filter" aria-label="依日別篩選"><option value="all">全部日別</option><option value="day1">Day 1 · 7/8</option><option value="day2">Day 2 · 7/9</option><option value="day3">Day 3 · 7/10</option></select>
+            <select class="field" id="status-filter" aria-label="依研判狀態篩選"><option value="all">全部研判狀態</option><option value="confirmed">確認支持</option><option value="conditional">條件式／疑似</option><option value="not-supported">非特／不支持</option><option value="insufficient">資料不足</option></select>
+            <div class="case-count" id="case-count">顯示 24 / 24 案</div>
+          </div>
+          <div class="case-grid" id="case-grid">
+  <article class="case-card" data-day="day1" data-status="conditional" data-search="個案 1：數學亞型與注意力競爭解釋 學業持續低落，以數學最明顯。能力估計不像整體智能低下，但數感、計算、數量推理及工作記憶資料偏弱；測驗速度、作答一致性與坐不住等表現另形成注意力疑慮。 條件式／疑似">
+    <div class="case-topline">
+      <span class="case-number">01</span>
+      <div class="case-heading">
+        <p class="case-date">07/08 · 條件式／疑似</p>
+        <h3>數學亞型與注意力競爭解釋</h3>
+      </div>
+      <span class="status status-conditional">條件式／疑似</span>
+    </div>
+    <p class="case-picture">學業持續低落，以數學最明顯。能力估計不像整體智能低下，但數感、計算、數量推理及工作記憶資料偏弱；測驗速度、作答一致性與坐不住等表現另形成注意力疑慮。</p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><h3>1. 初始主訴與快速 picture</h3>
+<p>學業持續低落，以數學最明顯。能力估計不像整體智能低下，但數感、計算、數量推理及工作記憶資料偏弱；測驗速度、作答一致性與坐不住等表現另形成注意力疑慮。</p>
+<h3>2. 關鍵量化與質性證據</h3>
+<ul><li>學業表現長期落後，Step 1 明確成立。</li><li>整體能力指標偏低，但語文、視覺空間與處理速度有相對正常表現，教師資料亦支持可學習性。</li><li>工作記憶相對弱，數學核心能力多項低落，數量推理與數感弱。</li><li>不限時表現較佳，限時項目可能未完成；另有簡單題錯、困難題對的作答不一致現象。</li></ul>
+<h3>3. 七步驟逐項研判</h3>
+<ol><li><strong>Step 1：通過。</strong>數學學業困難明確。</li><li><strong>Step 2：通過。</strong>可用相對優勢指標與現場資料估計能力仍在可學習範圍。</li><li><strong>Step 3：部分成立。</strong>工作記憶及數學核心處理弱，注意力則是競爭解釋。</li><li><strong>Step 4：大致成立。</strong>可把工作記憶、數感與數量處理弱連至數學困難，但不能機械式宣稱工作記憶低必然造成數學障礙。</li><li><strong>Step 5：成立。</strong>能力估計與數學表現存在非預期落差。</li><li><strong>Step 6：僅部分成立。</strong>注意力尚未釐清。</li><li><strong>Step 7：條件式成立。</strong>可先以數學亞型提供支持，或保守標示疑似並追蹤注意力；這不是其他原因已完全排除的乾淨案例。</li></ol>
+<h3>4. 分組分歧</h3>
+<p>一路徑認為注意力尚未排除，只宜判疑似；另一路徑依數學核心能力及教師資料，主張確認數學亞型。</p>
+<h3>5. 教授結論與理由</h3>
+<p>兩條路徑皆合理。閱讀與書寫證據不足，主要困難仍是數學；若目前確有資源需求，可先給數學亞型支持並於後續重評。教授同時明確保留「是否一定是數學 SLD」的不確定性。</p>
+<h3>6. 為何不是其他亞型或非特</h3>
+<ul><li><strong>閱讀：</strong>測驗未形成足夠缺陷鏈，現場疑慮也可能受其他因素影響。</li><li><strong>書寫：</strong>缺乏明確且獨立的書寫困難證據。</li><li><strong>非特：</strong>數學核心低落、非預期性與實際需求仍提供 SLD 支持；但若注意力能更完整解釋表現，需重估。</li></ul>
+<h3>7. 資料缺口</h3>
+<p>缺少跨情境注意力資料、限時與不限時的系統比較、數學錯誤型態、介入反應，以及工作記憶弱在真實數學任務中的直接證據。</p>
+<h3>8. 建議補件與補測</h3>
+<ul><li>固定間隔課堂觀察與跨情境注意力資料。</li><li>數學數感、錯誤型態與策略的質性分析。</li><li>分段介入及進步監測。</li></ul>
+<h3>9. 介入與 accommodation</h3>
+<p>以下為依現有證據推導的支持方向，不是逐字稿中的正式處方：數學步驟視覺化、外部記憶提示、分段指令、延長作答時間、減少無關抄寫負荷、明確數感與運算策略教學，並同步監測注意力。</p>
+<h3>10. 可泛化判斷原則</h3>
+<p>工作記憶會影響多個領域，不能看到工作記憶低就直接指定數學亞型；必須證明它在本案如何具體影響數學任務。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S4" title="Day 1 課程與個案 1–6 摘要">S4</button><button class="citation" type="button" data-source="S8" title="Day 1–2 私有錄音逐字稿 package">S8</button></div>
+    </details>
+  </article>
+
+  <article class="case-card" data-day="day1" data-status="confirmed" data-search="個案 2：閱讀識字明確，書寫需辨識是否獨立 語文學習明顯困難，核心為識字、解碼與閱讀流暢；書寫、抄寫與字形組織也有獨立疑慮。 確認支持">
+    <div class="case-topline">
+      <span class="case-number">02</span>
+      <div class="case-heading">
+        <p class="case-date">07/08 · 確認支持</p>
+        <h3>閱讀識字明確，書寫需辨識是否獨立</h3>
+      </div>
+      <span class="status status-confirmed">確認支持</span>
+    </div>
+    <p class="case-picture">語文學習明顯困難，核心為識字、解碼與閱讀流暢；書寫、抄寫與字形組織也有獨立疑慮。</p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><h3>1. 初始主訴與快速 picture</h3>
+<p>語文學習明顯困難，核心為識字、解碼與閱讀流暢；書寫、抄寫與字形組織也有獨立疑慮。</p>
+<h3>2. 關鍵量化與質性證據</h3>
+<ul><li>整體能力在正常範圍，Step 2 無明顯爭議。</li><li>快速自動化念名偏低，連高度熟悉刺激的提取也慢。</li><li>工作記憶與處理速度相對弱，視覺空間亦可能涉及。</li><li>識字量、解碼與閱讀流暢明顯弱。</li><li>遠端抄寫、字形組織與書寫產出有困難。</li><li>PA／聲音覺知資料缺漏，注意力僅屬觀察疑慮。</li></ul>
+<h3>3. 七步驟逐項研判</h3>
+<ol><li><strong>Step 1：通過。</strong>語文學業困難明確。</li><li><strong>Step 2：通過。</strong>整體能力正常。</li><li><strong>Step 3：成立。</strong>RAN／自動化提取、工作記憶、處理速度及視覺空間為主要候選缺陷。</li><li><strong>Step 4：成立。</strong>RAN 可連至識字與閱讀流暢；視覺空間與視覺符號處理可連至抄寫及字形組織。</li><li><strong>Step 5：成立。</strong>能力與基本讀寫表現落差明顯。</li><li><strong>Step 6：大致成立。</strong>目前沒有練習與學習機會不足的證據；注意力需觀察，但不足以單獨推翻 SLD。</li><li><strong>Step 7：成立。</strong>閱讀中的識字亞型明確；書寫可納入，教授傾向書寫也構成重要困難。</li></ol>
+<h3>4. 分組分歧</h3>
+<p>有組只判閱讀識字，認為書寫問題可能由識字造成；另有組判閱讀加書寫，理由是抄寫與字形組織已超出單純識字影響。</p>
+<h3>5. 教授結論與理由</h3>
+<p>閱讀識字成立且爭議低。書寫可加或暫不加，但教授認為抄寫、字形組織與產出困難相當明顯，較傾向納入。</p>
+<h3>6. 為何不是其他亞型或非特</h3>
+<ul><li><strong>數學：</strong>沒有形成數學核心困難的證據鏈。</li><li><strong>單純閱讀理解亞型：</strong>主要瓶頸在識字與解碼入口，不能把所有理解低落直接當成理解障礙。</li><li><strong>非特：</strong>RAN、識字、流暢與書寫證據互相支持，且無充分環境解釋。</li></ul>
+<h3>7. 資料缺口</h3>
+<p>缺少 PA／聲音覺知、口語語音問題的完整資料、注意力跨情境觀察、書寫困難是否獨立於識字，以及報讀與未報讀表現差異。</p>
+<h3>8. 建議補件與補測</h3>
+<ul><li>PA、音韻處理與必要的口語／構音評估。</li><li>分別比較聽寫、近端與遠端抄寫、自主寫作及打字。</li><li>閱讀正確率與流暢性進步監測。</li></ul>
+<h3>9. 介入與 accommodation</h3>
+<p>以下為依現有證據推導的支持方向：結構化識字與音韻教學、流暢度反覆練習、預教字詞、文字轉語音、延長閱讀與書寫時間、減少遠端抄寫，以及提供打字或替代輸出。</p>
+<h3>10. 可泛化判斷原則</h3>
+<p>識字造成的拼寫錯誤與獨立書寫障礙要分開；若連單純抄寫、字形組織與視覺符號輸出都弱，書寫亞型的支持會增加。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S4" title="Day 1 課程與個案 1–6 摘要">S4</button><button class="citation" type="button" data-source="S8" title="Day 1–2 私有錄音逐字稿 package">S8</button></div>
+    </details>
+  </article>
+
+  <article class="case-card" data-day="day1" data-status="conditional" data-search="個案 3：全面低落但優勢未呈現的疑難案 閱讀、書寫與數學幾乎全面低落，但一般能力有正常甚至明顯優勢，優勢卻沒有呈現在任何學業領域。過去鑑定歷史反覆，屬教授所稱的「buffet 型」疑難案。 條件式／疑似">
+    <div class="case-topline">
+      <span class="case-number">03</span>
+      <div class="case-heading">
+        <p class="case-date">07/08 · 條件式／疑似</p>
+        <h3>全面低落但優勢未呈現的疑難案</h3>
+      </div>
+      <span class="status status-conditional">條件式／疑似</span>
+    </div>
+    <p class="case-picture">閱讀、書寫與數學幾乎全面低落，但一般能力有正常甚至明顯優勢，優勢卻沒有呈現在任何學業領域。過去鑑定歷史反覆，屬教授所稱的「Buffet 型」疑難案。</p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><h3>1. 初始主訴與快速 picture</h3>
+<p>閱讀、書寫與數學幾乎全面低落，但一般能力有正常甚至明顯優勢，優勢卻沒有呈現在任何學業領域。過去鑑定歷史反覆，屬教授所稱的「Buffet 型」疑難案。</p>
+<h3>2. 關鍵量化與質性證據</h3>
+<ul><li>學業全面弱，不像單一領域困難。</li><li>能力估計正常，處理速度有優勢；工作記憶相對弱，但未低到足以單獨解釋全面低成就。</li><li>測驗情境中注意力可配合，但真實學習、動機與生活型態資料仍不一致。</li><li>已有課後協助與教師支持，卻仍看不到優勢能力在學業中的表現。</li></ul>
+<h3>3. 七步驟逐項研判</h3>
+<ol><li><strong>Step 1：依摘要可判通過。</strong>本段錄音未收錄完整討論。</li><li><strong>Step 2：通過。</strong>能力估計不是主要問題。</li><li><strong>Step 3：不穩定。</strong>工作記憶可能弱，但不能充分解釋全面低落。</li><li><strong>Step 4：未成立。</strong>工作記憶不足以合理連至閱讀、書寫與數學全部困難。</li><li><strong>Step 5：成立。</strong>能力與全面低成就呈現非預期落差。</li><li><strong>Step 6：未通過。</strong>動機、學習史、生活型態、介入反應及其他原因仍需釐清。</li><li><strong>Step 7：不能下穩定亞型結論。</strong>若需求迫切，可暫由閱讀支持進入並持續驗證。</li></ol>
+<h3>4. 分組分歧</h3>
+<p>有組認為課後協助、注意力與動機已可排除；教授認為排除證據不足。各組多傾向給閱讀，有組另考慮書寫或數學，但因果鏈不足。</p>
+<h3>5. 教授結論與理由</h3>
+<p>嚴格研判應停在 Step 6。若基於高需求不得不先提供身分，教授只會先給閱讀支持，觀察介入後優勢是否出現；若後續證據不支持 SLD，應退出，而非永久維持錯誤分類。</p>
+<h3>6. 為何不是其他亞型或非特</h3>
+<ul><li><strong>數學：</strong>視覺空間、算術與處理速度等資料未形成典型數學缺陷鏈。</li><li><strong>書寫：</strong>雖表現差，但缺乏獨立核心缺陷及因果證據。</li><li><strong>純閱讀：</strong>是務實的服務入口，不是病理已被完整確認。</li><li><strong>非特仍可能：</strong>若全面低成就主要源自動機、學習史、生活型態或其他未辨識因素，SLD 即不成立。</li></ul>
+<h3>7. 資料缺口</h3>
+<p>缺少完整早期發展與鑑定史、歷次不通過理由、出席與學習機會、生活型態、課後支持品質、跨情境注意力、實際作業樣本、優勢活動表現及介入反應。</p>
+<h3>8. 建議補件與補測</h3>
+<ul><li>教師與照顧者訪談及歷史資料整合。</li><li>課堂與作業樣本，並主動尋找優勢表現。</li><li>結構化閱讀介入及進步監測；先回答「優勢在哪裡呈現」，再決定是否追加測驗。</li></ul>
+<h3>9. 介入與 accommodation</h3>
+<p>以下為依現有證據推導的暫時支持：先以需求為本提供閱讀支持、分段任務、外部記憶提示與多元輸入；設定短週期目標並密集監測，避免把暫時支持當成已確認診斷。</p>
+<h3>10. 可泛化判斷原則</h3>
+<p>SLD 不只找 weakness，也必須找到 strength 並說明它為何沒有在學習中呈現；全面低落且看不到任何優勢時，應先懷疑因果模型不完整。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S4" title="Day 1 課程與個案 1–6 摘要">S4</button><button class="citation" type="button" data-source="S8" title="Day 1–2 私有錄音逐字稿 package">S8</button></div>
+    </details>
+  </article>
+
+  <article class="case-card" data-day="day1" data-status="not-supported" data-search="個案 4：停在 step 3 的證據不足案 現有錄音未包含主訴或 step 1，只能確認能力估計大致可接受，但找不到足夠明確的心理歷程缺陷。 非特／不支持">
+    <div class="case-topline">
+      <span class="case-number">04</span>
+      <div class="case-heading">
+        <p class="case-date">07/08 · 非特／不支持</p>
+        <h3>停在 Step 3 的證據不足案</h3>
+      </div>
+      <span class="status status-not-supported">非特／不支持</span>
+    </div>
+    <p class="case-picture">現有錄音未包含主訴或 Step 1，只能確認能力估計大致可接受，但找不到足夠明確的心理歷程缺陷。</p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><h3>1. 初始主訴與快速 picture</h3>
+<p>現有錄音未包含主訴或 Step 1，只能確認能力估計大致可接受，但找不到足夠明確的心理歷程缺陷。</p>
+<h3>2. 關鍵量化與質性證據</h3>
+<p>流體推理與數量推理只是相對較弱，相關分測驗大致接近個人平均，僅單一項稍低，不足以稱為缺陷。</p>
+<h3>3. 七步驟逐項研判</h3>
+<ol><li><strong>Step 1：無法獨立確認。</strong>錄音與摘要均無足夠細節。</li><li><strong>Step 2：通過。</strong>能力估計無明顯問題。</li><li><strong>Step 3：不通過。</strong>核心缺陷證據不足。</li><li><strong>Step 4：停止。</strong>沒有可連結的明確缺陷。</li><li><strong>Step 5：停止。</strong>不應跳過前一步判非預期性。</li><li><strong>Step 6：停止。</strong>沒有必要勉強列排除因素。</li><li><strong>Step 7：目前不支持 SLD。</strong>這不等於證明完全沒有學習需求。</li></ol>
+<h3>4. 分組分歧</h3>
+<p>分組曾提出流體推理與數量推理弱；教授認為只能稱相對弱勢，不能升格為 deficit。</p>
+<h3>5. 教授結論與理由</h3>
+<p>停在 Step 3，不應為完成流程而勉強往後判。</p>
+<h3>6. 為何不是其他亞型或非特</h3>
+<p>沒有可連至閱讀、書寫或數學的明確核心缺陷，因此任何 SLD 亞型都缺少必要證據。目前只能說不支持 SLD，不能由這段短錄音判定學生完全無學習需求。</p>
+<h3>7. 資料缺口</h3>
+<p>主訴、學業表現、歷史資料、質性錯誤、介入反應及 Step 1 證據均未收錄。</p>
+<h3>8. 建議補件與補測</h3>
+<p>先補主訴與學業影響資料；只有在確認特定學業困難後，才針對該領域選擇認知歷程與成就評量。</p>
+<h3>9. 介入與 accommodation</h3>
+<p>依目前證據僅宜提供一般教育內的目標性教學、進步監測及需求型支持，不宜只憑相對弱項配置障礙專屬 accommodation。</p>
+<h3>10. 可泛化判斷原則</h3>
+<p>相對弱不等於臨床或教育上的缺陷；單一低點必須結合絕對程度、個人基準、學業影響及其他證據。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S4" title="Day 1 課程與個案 1–6 摘要">S4</button><button class="citation" type="button" data-source="S8" title="Day 1–2 私有錄音逐字稿 package">S8</button></div>
+    </details>
+  </article>
+
+  <article class="case-card" data-day="day1" data-status="confirmed" data-search="個案 5：輸出媒介差異支持書寫亞型 整體學業落後，但識字相對較好，主要瓶頸是手寫、聽寫、抄寫及書寫表達；同一內容改用打字時，速度與品質明顯改善。 確認支持">
+    <div class="case-topline">
+      <span class="case-number">05</span>
+      <div class="case-heading">
+        <p class="case-date">07/08 · 確認支持</p>
+        <h3>輸出媒介差異支持書寫亞型</h3>
+      </div>
+      <span class="status status-confirmed">確認支持</span>
+    </div>
+    <p class="case-picture">整體學業落後，但識字相對較好，主要瓶頸是手寫、聽寫、抄寫及書寫表達；同一內容改用打字時，速度與品質明顯改善。</p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><h3>1. 初始主訴與快速 picture</h3>
+<p>整體學業落後，但識字相對較好，主要瓶頸是手寫、聽寫、抄寫及書寫表達；同一內容改用打字時，速度與品質明顯改善。</p>
+<h3>2. 關鍵量化與質性證據</h3>
+<ul><li>一般能力估計正常，前後測資料一致。</li><li>處理速度為穩定弱項。</li><li>需要視覺搜尋、符號轉換與手寫輸出的任務，明顯弱於只需辨識標記的任務。</li><li>打字遠快於手寫，手寫需數倍時間且內容品質下降。</li><li>識字相對好，卻寫不出來，形成明顯非預期落差。</li><li>教學支持與既有學習目標能對準需求，排除教學不足較有依據。</li></ul>
+<h3>3. 七步驟逐項研判</h3>
+<ol><li><strong>Step 1：通過。</strong>學業及書寫表現有持續困難。</li><li><strong>Step 2：通過。</strong>可用一般能力指標及歷史資料估計正常可學習能力。</li><li><strong>Step 3：成立。</strong>處理速度、視覺符號轉換與書寫輸出負荷為核心弱點。</li><li><strong>Step 4：成立。</strong>可直接連至聽寫、抄寫、仿寫及書寫表達。</li><li><strong>Step 5：成立。</strong>識字與手寫輸出落差、打字與手寫落差均具非預期性。</li><li><strong>Step 6：成立。</strong>支持、學習態度、動機、教學與練習不足皆無主要證據。</li><li><strong>Step 7：成立。</strong>確認 SLD，書寫亞型。</li></ol>
+<h3>4. 分組分歧</h3>
+<p>多數一致判純書寫；討論點主要是是否保留先前閱讀亞型，而不是是否判書寫。</p>
+<h3>5. 教授結論與理由</h3>
+<p>書寫亞型明確。閱讀可能仍不理想，但已改善到未達缺陷程度，因此這次多數應判純書寫。</p>
+<h3>6. 為何不是其他亞型或非特</h3>
+<ul><li><strong>閱讀：</strong>目前未見同等強度的核心缺陷，閱讀理解低空不等於閱讀障礙。</li><li><strong>數學：</strong>無數學核心處理證據。</li><li><strong>非特：</strong>跨時間穩定的處理速度弱、不同輸出方式的巨大落差及多種書寫任務低落，形成完整證據鏈。</li></ul>
+<h3>7. 資料缺口</h3>
+<p>仍需區分手寫困難中動作、字形表徵、拼寫、組織與速度各自占比，並確認打字與手寫是否在相同提示、時間與內容要求下比較。</p>
+<h3>8. 建議補件與補測</h3>
+<ul><li>同題材的手寫／打字及限時／不限時對照。</li><li>抄寫、聽寫與自主寫作的拆分及錯誤分析。</li><li>必要時補精細動作或職能評估。</li></ul>
+<h3>9. 介入與 accommodation</h3>
+<p>優先允許打字、延長書寫時間、減少抄寫、提供講義或筆記架構、口頭或數位替代作答，並將內容與字跡分項評量。介入可聚焦字形自動化、拼寫、句段組織與書寫規劃。</p>
+<h3>10. 可泛化判斷原則</h3>
+<p>同一任務只改變輸出媒介，是辨識書寫瓶頸的強證據；accommodation 應移除輸出障礙，不降低課程標準。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S4" title="Day 1 課程與個案 1–6 摘要">S4</button><button class="citation" type="button" data-source="S8" title="Day 1–2 私有錄音逐字稿 package">S8</button></div>
+    </details>
+  </article>
+
+  <article class="case-card" data-day="day1" data-status="conditional" data-search="個案 6：主訴不清且資料互相衝突 主訴不清。整體成績未明顯低落，但單字識別與閱讀流暢可能弱；有文本脈絡時理解較好。能力優勢明顯，語文理解相對低，測驗與教師對語音、注音或聲調的描述互相衝突。 條件式／疑似">
+    <div class="case-topline">
+      <span class="case-number">06</span>
+      <div class="case-heading">
+        <p class="case-date">07/08 · 條件式／疑似</p>
+        <h3>主訴不清且資料互相衝突</h3>
+      </div>
+      <span class="status status-conditional">條件式／疑似</span>
+    </div>
+    <p class="case-picture">主訴不清。整體成績未明顯低落，但單字識別與閱讀流暢可能弱；有文本脈絡時理解較好。能力優勢明顯，語文理解相對低，測驗與教師對語音、注音或聲調的描述互相衝突。</p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><h3>1. 初始主訴與快速 picture</h3>
+<p>主訴不清。整體成績未明顯低落，但單字識別與閱讀流暢可能弱；有文本脈絡時理解較好。能力優勢明顯，語文理解相對低，測驗與教師對語音、注音或聲調的描述互相衝突。</p>
+<h3>2. 關鍵量化與質性證據</h3>
+<ul><li>有組認為 Step 1 不成立，因多科表現尚可。</li><li>流體推理為明顯優勢，其他能力多在正常範圍，只有語文理解相對低。</li><li>整體處理速度不是主要缺陷。</li><li>單字或字詞單獨呈現較弱、閱讀速度慢；有文本時可運用脈絡理解。</li><li>RAN 整體不高但不典型；PA 測驗看似正常，教師卻描述語音、注音或聲調困難。</li><li>動機、分心與練習不足均被提出，但證據未統整。</li></ul>
+<h3>3. 七步驟逐項研判</h3>
+<ol><li><strong>Step 1：未定。</strong>若確認實際學業無困難，應直接停止。</li><li><strong>Step 2：通過。</strong>整體能力及推理優勢明確。</li><li><strong>Step 3：未定。</strong>可能有語言、識字、自動化提取或解碼問題，但資料矛盾且不典型。</li><li><strong>Step 4：尚未穩定。</strong>識字與流暢可能連至閱讀，但需現場證據。</li><li><strong>Step 5：條件式成立。</strong>若閱讀困難屬實，與能力優勢形成非預期落差。</li><li><strong>Step 6：未完成。</strong>環境因素難以完整解釋選擇性的語文弱勢，但動機與練習仍未排清。</li><li><strong>Step 7：暫緩。</strong>應請送件教師補充後重判，不宜只靠書面資料指定亞型。</li></ol>
+<h3>4. 分組分歧</h3>
+<p>有組停在 Step 1；有組讓 Step 1、2 通過但停在 Step 3～4；另有組以低動機、分心與練習不足解釋。教授認為各路徑都暴露出同一問題：主訴與證據鏈未被說清楚。</p>
+<h3>5. 教授結論與理由</h3>
+<p>不能只靠書面資料下結論。Dyslexia／識字與閱讀流暢亞型有可能，但 PA、RAN、教師描述與文本理解互相衝突；必須由教師說明哪一組資料符合現場狀況。</p>
+<h3>6. 為何不是其他亞型或非特</h3>
+<ul><li><strong>書寫：</strong>資料偏低但不夠明確，且現場另有書寫相對可用的描述。</li><li><strong>數學：</strong>表現與推理能力未支持數學亞型。</li><li><strong>非特：</strong>若確實沒有學業影響，Step 1 即排除；但若單字識別與流暢困難被成績或脈絡補償掩蓋，不能因總成績尚可就直接判非特。</li></ul>
+<h3>7. 資料缺口</h3>
+<p>缺少明確主訴、真實口語朗讀、單字辨識錯誤型態、閱讀速度與正確率、注音／語音／聲調現場表現、PA 測驗可信度、文本與無文本條件差異、介入史與練習量。</p>
+<h3>8. 建議補件與補測</h3>
+<ul><li>教師補充課堂實例與閱讀樣本。</li><li>對準閱讀主訴補單字辨識、假字／音韻解碼、流暢度、PA 與語言評估。</li><li>不再無方向堆疊跨領域測驗。</li></ul>
+<h3>9. 介入與 accommodation</h3>
+<p>在定案前可採需求型暫時支持：預教字詞、結構化識字與流暢練習、閱讀量分段、閱讀負荷高的任務延長時間，以及提供文字轉語音但保留解碼教學，並監測是否有實際改善。</p>
+<h3>10. 可泛化判斷原則</h3>
+<p>文本脈絡可能遮蔽單字識別缺陷；總成績不低也不等於沒有閱讀困難。測驗資料與教師觀察衝突時，應先釐清主訴並做聚焦評量，測驗不是越多越好。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S4" title="Day 1 課程與個案 1–6 摘要">S4</button><button class="citation" type="button" data-source="S8" title="Day 1–2 私有錄音逐字稿 package">S8</button></div>
+    </details>
+  </article>
+
+  <article class="case-card" data-day="day2" data-status="conditional" data-search="個案 7：非典型數學困難，核心證據偏弱 數學表現確有困難，但典型數學 sld 的認知證據不完整。最接近核心的線索是數感；注意力、執行功能或後設認知也可能影響解題。 條件式／疑似">
+    <div class="case-topline">
+      <span class="case-number">07</span>
+      <div class="case-heading">
+        <p class="case-date">07/09 · 條件式／疑似</p>
+        <h3>非典型數學困難，核心證據偏弱</h3>
+      </div>
+      <span class="status status-conditional">條件式／疑似</span>
+    </div>
+    <p class="case-picture">數學表現確有困難，但典型數學 SLD 的認知證據不完整。最接近核心的線索是數感；注意力、執行功能或後設認知也可能影響解題。</p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><h3>1. 快速 picture</h3>
+<p>數學表現確有困難，但典型數學 SLD 的認知證據不完整。最接近核心的線索是數感；注意力、執行功能或後設認知也可能影響解題。</p>
+<h3>2. 關鍵證據</h3>
+<ul><li>基礎運算、數字大小排序及數量關係有困難。</li><li>部分數學核心作業顯示數感弱。</li><li>工作記憶多落在一般偏低範圍，不能直接當成核心缺陷。</li><li>處理速度前後不一致，視覺空間也未呈現穩定且明顯的低落。</li></ul>
+<h3>3. 七步驟研判</h3>
+<ol><li><strong>確認學業困難</strong>：數學困難成立。</li><li><strong>能力估計</strong>：整體能力大致可視為正常範圍。</li><li><strong>找 primary deficit</strong>：數感較有支持；其他常見數學歷程證據偏弱。</li><li><strong>建立因果連結</strong>：數感可部分連到運算與數量排序，執行功能連結仍屬推論。</li><li><strong>非預期低成就</strong>：有可能，但現有資料不夠典型。</li><li><strong>排除因素</strong>：注意力、動機及學習習慣未排乾淨。</li><li><strong>亞型與鑑定句</strong>：僅能條件式支持數學亞型。</li></ol>
+<h3>4. 分組意見與分歧</h3>
+<p>部分組別主張數學 SLD；另一部分認為核心缺陷不足，應判非特或先補件。分歧集中在 Step 3、Step 4 與 Step 6。</p>
+<h3>5. 教授結論</h3>
+<p>現有資料可給、也可不給。若送件教師能提出長期且明確的數感、策略選擇與解題困難，數學亞型會較站得住腳；若只看現有資料，補件或保守不給也合理。</p>
+<h3>6. 排除因素與替代解釋</h3>
+<ul><li>注意力不穩造成表現起伏。</li><li>執行功能或後設認知困難，使學生不會規劃、選擇或檢查策略。</li><li>動機、練習量及學習習慣影響數學成就。</li></ul>
+<h3>7. 資料缺口</h3>
+<ul><li>缺少早期數感發展史。</li><li>缺少解題策略、錯誤監控及自我修正的觀察。</li><li>缺少跨情境、跨時間的數學困難證據。</li></ul>
+<h3>8. 建議補件／補測</h3>
+<ul><li>數量比較、估算、數序與數量關係作業。</li><li>解題歷程訪談與作業錯誤分析。</li><li>課堂中的計畫、策略選擇及自我檢核紀錄。</li><li>注意力及執行功能的跨情境質性資料。</li></ul>
+<h3>9. 介入與 accommodation</h3>
+<ul><li>使用具體物、圖像及數線明示數量關係。</li><li>提供 worked examples、解題步驟卡與自我檢核表。</li><li>將複雜題目分段，降低不必要的計算與工作記憶負荷。</li><li>若速度確實影響作答，可提供合理延長時間。</li></ul>
+<h3>10. 可泛化原則</h3>
+<p>數學低成就不是數學 SLD 的充分條件。至少要找到數感、工作記憶、處理速度、視覺空間或執行功能之一，並說清楚它如何造成特定數學困難。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S6" title="Day 2 個案 7–11、13–14 摘要">S6</button><button class="citation" type="button" data-source="S8" title="Day 1–2 私有錄音逐字稿 package">S8</button></div>
+    </details>
+  </article>
+
+  <article class="case-card" data-day="day2" data-status="conditional" data-search="個案 8：閱讀識字需求明顯，但排除因素難以釐清 整體學業能力低落，能力估計與環境排除因素均有爭議；識字落差又大到難以完全用一般低成就解釋。 條件式／疑似">
+    <div class="case-topline">
+      <span class="case-number">08</span>
+      <div class="case-heading">
+        <p class="case-date">07/09 · 條件式／疑似</p>
+        <h3>閱讀識字需求明顯，但排除因素難以釐清</h3>
+      </div>
+      <span class="status status-conditional">條件式／疑似</span>
+    </div>
+    <p class="case-picture">整體學業能力低落，能力估計與環境排除因素均有爭議；識字落差又大到難以完全用一般低成就解釋。</p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><h3>1. 快速 picture</h3>
+<p>整體學業能力低落，能力估計與環境排除因素均有爭議；識字落差又大到難以完全用一般低成就解釋。</p>
+<h3>2. 關鍵證據</h3>
+<ul><li>多科成就普遍低落，整體能力估計接近臨界範圍。</li><li>流體推理前後相對穩定且較佳，顯示仍可能具有較好的推理潛能。</li><li>識字與解碼明顯低於年級期待。</li><li>出席、作息、練習量、學習習慣與支持條件都有疑問。</li></ul>
+<h3>3. 七步驟研判</h3>
+<ol><li><strong>確認學業困難</strong>：廣泛低成就及嚴重識字困難成立。</li><li><strong>能力估計</strong>：有分歧；可參考相對穩定的流體推理，而不能只看整體分數。</li><li><strong>找 primary deficit</strong>：解碼、語文連結及工作記憶是候選缺陷。</li><li><strong>建立因果連結</strong>：可合理連到閱讀識字困難。</li><li><strong>非預期低成就</strong>：是否成立仍受整體低能力與學習史影響。</li><li><strong>排除因素</strong>：學習機會及環境因素無法排乾淨。</li><li><strong>亞型與鑑定句</strong>：閱讀識字、疑似或非特皆有合理路徑。</li></ol>
+<h3>4. 分組意見與分歧</h3>
+<p>一組主張閱讀識字 SLD；部分組別主張非特，先走學習扶助或二級輔導；也有先給疑似、介入後再觀察的折衷意見。</p>
+<h3>5. 教授結論</h3>
+<p>各種判法都有理由，核心爭議在 Step 6。實務上不能只問「能不能過」，還要確認學生進入資源班後是否有明確且有效的支持著力點。</p>
+<h3>6. 排除因素與替代解釋</h3>
+<ul><li>長期學習機會不足或出席不穩。</li><li>練習不足、作息或數位裝置使用影響投入。</li><li>家庭及課後支持有限。</li><li>整體能力較弱造成普遍低成就。</li></ul>
+<h3>7. 資料缺口</h3>
+<ul><li>小學階段的識字與閱讀發展史。</li><li>歷年出席、學習扶助及介入反應。</li><li>介入是否足量、對準核心困難且穩定執行。</li></ul>
+<h3>8. 建議補件／補測</h3>
+<ul><li>歷年識字量、閱讀流暢及學業成長曲線。</li><li>學習扶助內容、頻率、忠實度及反應。</li><li>PA、RAN、閱讀流暢及報讀前後比較。</li><li>出席與課堂投入的客觀紀錄。</li></ul>
+<h3>9. 介入與 accommodation</h3>
+<ul><li>報讀、文字轉語音及數位教材。</li><li>多感官識字、UDL 與程度調整教材。</li><li>設計可達成的小步驟目標，累積成功經驗。</li><li>同步處理出席、作息與學習習慣，並追蹤介入反應。</li></ul>
+<h3>10. 可泛化原則</h3>
+<p>排除因素不乾淨時，不能只用單一低分決定身分。能力估計也不應只看整體分數，而應結合穩定的優勢指標、發展史與介入資料。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S6" title="Day 2 個案 7–11、13–14 摘要">S6</button><button class="citation" type="button" data-source="S8" title="Day 1–2 私有錄音逐字稿 package">S8</button></div>
+    </details>
+  </article>
+
+  <article class="case-card" data-day="day2" data-status="confirmed" data-search="個案 9：處理速度型，多個學業領域受影響 識字正確性尚可，但解碼與輸出非常慢。處理速度是最清楚的 primary deficit，可合理連到閱讀、書寫及數學表現。 確認支持">
+    <div class="case-topline">
+      <span class="case-number">09</span>
+      <div class="case-heading">
+        <p class="case-date">07/09 · 確認支持</p>
+        <h3>處理速度型，多個學業領域受影響</h3>
+      </div>
+      <span class="status status-confirmed">確認支持</span>
+    </div>
+    <p class="case-picture">識字正確性尚可，但解碼與輸出非常慢。處理速度是最清楚的 primary deficit，可合理連到閱讀、書寫及數學表現。</p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><h3>1. 快速 picture</h3>
+<p>識字正確性尚可，但解碼與輸出非常慢。處理速度是最清楚的 primary deficit，可合理連到閱讀、書寫及數學表現。</p>
+<h3>2. 關鍵證據</h3>
+<ul><li>現場觀察與測驗均顯示明顯緩慢。</li><li>閱讀流暢度低，正確識字不等於能有效率閱讀。</li><li>手寫速度慢，口述與書面輸出存在差異。</li><li>數學正確性可能尚可，但完成速度受限。</li><li>接受介入後仍只有有限進步，學習態度則相對穩定。</li></ul>
+<h3>3. 七步驟研判</h3>
+<ol><li><strong>確認學業困難</strong>：閱讀流暢、書寫速度及數學速度困難成立。</li><li><strong>能力估計</strong>：一般能力估計可接受。</li><li><strong>找 primary deficit</strong>：處理速度是最明確缺陷。</li><li><strong>建立因果連結</strong>：可跨領域連到解碼、書寫及計算速度。</li><li><strong>非預期低成就</strong>：長期介入後仍困難，支持非預期性。</li><li><strong>排除因素</strong>：情緒與學習態度未見主要疑慮，但需核對前後測差異。</li><li><strong>亞型與鑑定句</strong>：閱讀與數學較明確；書寫可成立或保守暫緩。</li></ol>
+<h3>4. 分組意見與分歧</h3>
+<p>多數組別給閱讀、書寫、數學三亞型；較保守的組別只給閱讀與數學，認為書寫可能是識字或解碼困難的次級結果。</p>
+<h3>5. 教授結論</h3>
+<p>若確認處理速度確實慢，三亞型都給是合理的；若希望更謹慎，可先保留書寫，只給閱讀與數學。</p>
+<h3>6. 排除因素與替代解釋</h3>
+<ul><li>書寫慢可能源於識字或解碼，而不是獨立書寫障礙。</li><li>前後處理速度結果差異可能反映測驗狀態或注意力。</li><li>精細動作或視動整合因素仍可作基本篩查。</li></ul>
+<h3>7. 資料缺口</h3>
+<ul><li>書寫品質與速度的分離資料。</li><li>延長時間後，各領域正確性是否顯著改善。</li><li>口述、鍵盤與手寫輸出的系統比較。</li></ul>
+<h3>8. 建議補件／補測</h3>
+<ul><li>限時與不限時閱讀、書寫及數學比較。</li><li>口述、鍵盤與手寫的速度和內容品質比較。</li><li>精細動作及視動整合的排除性篩查。</li><li>前後處理速度差異的施測行為紀錄。</li></ul>
+<h3>9. 介入與 accommodation</h3>
+<ul><li>合理延長時間並分段作答。</li><li>減少抄寫，允許口述、鍵盤或語音輸入。</li><li>教學評量以正確率、概念理解及內容品質為主，不以速度作唯一標準。</li><li>預先提供重點或筆記框架，降低即時輸出負荷。</li></ul>
+<h3>10. 可泛化原則</h3>
+<p>同一處理缺陷可以影響多個學業領域，但每個亞型仍需有獨立的功能受限證據；不能因一個低指標便自動掛上所有亞型。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S6" title="Day 2 個案 7–11、13–14 摘要">S6</button><button class="citation" type="button" data-source="S8" title="Day 1–2 私有錄音逐字稿 package">S8</button></div>
+    </details>
+  </article>
+
+  <article class="case-card" data-day="day2" data-status="confirmed" data-search="個案 10：閱讀識字成立，書寫需證明獨立性 識字與解碼是主要困難，報讀後表現明顯提升。自主書寫錯誤多樣，但是否超出低識字量的影響仍有爭議。 確認支持">
+    <div class="case-topline">
+      <span class="case-number">10</span>
+      <div class="case-heading">
+        <p class="case-date">07/09 · 確認支持</p>
+        <h3>閱讀識字成立，書寫需證明獨立性</h3>
+      </div>
+      <span class="status status-confirmed">確認支持</span>
+    </div>
+    <p class="case-picture">識字與解碼是主要困難，報讀後表現明顯提升。自主書寫錯誤多樣，但是否超出低識字量的影響仍有爭議。</p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><h3>1. 快速 picture</h3>
+<p>識字與解碼是主要困難，報讀後表現明顯提升。自主書寫錯誤多樣，但是否超出低識字量的影響仍有爭議。</p>
+<h3>2. 關鍵證據</h3>
+<ul><li>報讀前後表現差距大，顯示文字解碼限制了閱讀表現。</li><li>聲調、拼讀與語音處理可能不穩。</li><li>自主書寫出現同音替代、部件或筆畫錯誤，且錯誤型態不穩定。</li><li>仿寫較好，但自主輸出時提取困難。</li><li>語文能力指標與教師質性描述互相衝突。</li></ul>
+<h3>3. 七步驟研判</h3>
+<ol><li><strong>確認學業困難</strong>：閱讀識字及部分書寫困難成立。</li><li><strong>能力估計</strong>：可能具正常甚至相對好的語文潛能，但指標代表性需核對。</li><li><strong>找 primary deficit</strong>：解碼與語音處理是主要候選缺陷。</li><li><strong>建立因果連結</strong>：與閱讀連結強；與獨立書寫障礙的連結未完成。</li><li><strong>非預期低成就</strong>：若語文優勢可信，閱讀低成就具有非預期性。</li><li><strong>排除因素</strong>：注意力、練習及低識字量未完全排除。</li><li><strong>亞型與鑑定句</strong>：閱讀識字成立，書寫為條件式。</li></ol>
+<h3>4. 分組意見與分歧</h3>
+<p>一派只給閱讀識字，認為書寫錯誤可能由識字量低造成；另一派給閱讀加書寫，強調已學字在自主輸出時仍出現多元且不穩定的錯誤。</p>
+<h3>5. 教授結論</h3>
+<p>閱讀成立。仿寫正常不能排除書寫障礙，但若要加書寫，必須證明自主書寫困難在排除識字量、練習與注意力後仍持續存在。</p>
+<h3>6. 排除因素與替代解釋</h3>
+<ul><li>低識字量造成字形提取失敗。</li><li>注意力或練習不足導致錯誤不穩定。</li><li>語文能力測驗與日常語言表現不一致，可能影響能力估計。</li></ul>
+<h3>7. 資料缺口</h3>
+<ul><li>語文能力指標是否具代表性。</li><li>PA、RAN、聲調及拼讀資料。</li><li>延宕書寫與更多自主文本。</li><li>書寫錯誤是否在已確認會認讀的字上仍持續。</li></ul>
+<h3>8. 建議補件／補測</h3>
+<ul><li>快速念名、聲韻覺識、聲調辨識、雙拼與三拼。</li><li>聽寫、延宕聽寫、作文及自由書寫錯誤分析。</li><li>報讀前後的閱讀理解與作答比較。</li><li>補充施測行為及日常語言使用描述。</li></ul>
+<h3>9. 介入與 accommodation</h3>
+<ul><li>報讀、文字轉語音與語音輸入。</li><li>系統性音韻、聲調、字形及字詞提取教學。</li><li>允許口述或鍵盤輸出，降低手寫提取對內容表達的干擾。</li><li>對已學字做間隔與延宕提取練習。</li></ul>
+<h3>10. 可泛化原則</h3>
+<p>仿寫測到的是視覺複製；自主書寫還涉及語音、字形表徵與長期記憶提取。仿寫良好不能直接推出沒有書寫障礙。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S6" title="Day 2 個案 7–11、13–14 摘要">S6</button><button class="citation" type="button" data-source="S8" title="Day 1–2 私有錄音逐字稿 package">S8</button></div>
+    </details>
+  </article>
+
+  <article class="case-card" data-day="day2" data-status="conditional" data-search="個案 11：閱讀可成立，但介入與動機需釐清 長期接受支持後閱讀仍低落，顯示核心閱讀困難可能存在；同時伴隨學習動機、注意力與數位裝置使用疑慮。 條件式／疑似">
+    <div class="case-topline">
+      <span class="case-number">11</span>
+      <div class="case-heading">
+        <p class="case-date">07/09 · 條件式／疑似</p>
+        <h3>閱讀可成立，但介入與動機需釐清</h3>
+      </div>
+      <span class="status status-conditional">條件式／疑似</span>
+    </div>
+    <p class="case-picture">長期接受支持後閱讀仍低落，顯示核心閱讀困難可能存在；同時伴隨學習動機、注意力與數位裝置使用疑慮。</p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><h3>1. 快速 picture</h3>
+<p>長期接受支持後閱讀仍低落，顯示核心閱讀困難可能存在；同時伴隨學習動機、注意力與數位裝置使用疑慮。</p>
+<h3>2. 關鍵證據</h3>
+<ul><li>接受多年特教或學習扶助，只有緩慢且有限的進步。</li><li>閱讀資料可形成較完整的亞型證據鏈。</li><li>教師曾描述注意不集中。</li><li>前後處理速度表現有變動，可能受注意力或施測狀態影響。</li><li>學習意願及課外數位使用被提出為疑點。</li></ul>
+<h3>3. 七步驟研判</h3>
+<ol><li><strong>確認學業困難</strong>：閱讀困難成立。</li><li><strong>能力估計</strong>：現有能力資料足以繼續研判，但需注意波動。</li><li><strong>找 primary deficit</strong>：工作記憶或閱讀處理是可能核心。</li><li><strong>建立因果連結</strong>：閱讀證據鏈可走。</li><li><strong>非預期低成就</strong>：長期介入後仍低落，提供支持。</li><li><strong>排除因素</strong>：動機、注意力及介入品質未排乾淨。</li><li><strong>亞型與鑑定句</strong>：閱讀亞型最可行。</li></ol>
+<h3>4. 分組意見與分歧</h3>
+<p>多數組別仍給閱讀亞型，但保留一般低成就、投入不足或介入未對準核心困難的疑慮。</p>
+<h3>5. 教授結論</h3>
+<p>閱讀身分可走。若補充後確認取得身分對學生較有利，可用閱讀亞型通過；但現有質性資料仍不足，應補充動機、注意力及介入內容。</p>
+<h3>6. 排除因素與替代解釋</h3>
+<ul><li>學習意願低或課外數位使用影響投入。</li><li>注意力不足造成測驗與課堂表現波動。</li><li>介入時間雖長，但可能沒有對準核心閱讀困難。</li></ul>
+<h3>7. 資料缺口</h3>
+<ul><li>介入內容、頻率、忠實度及成長曲線。</li><li>跨情境注意力證據。</li><li>報讀或替代輸入後的實際改善程度。</li><li>作息、投入及數位使用與學習表現的時間關係。</li></ul>
+<h3>8. 建議補件／補測</h3>
+<ul><li>歷年閱讀介入與進步紀錄。</li><li>教師及家長的跨情境注意力資料。</li><li>報讀前後、限時與不限時閱讀比較。</li><li>客觀的課堂投入與作業完成紀錄。</li></ul>
+<h3>9. 介入與 accommodation</h3>
+<ul><li>對準解碼與閱讀流暢的密集介入。</li><li>報讀、文字轉語音及程度適切教材。</li><li>短任務、即時回饋與可量化的進步追蹤。</li><li>將投入、出席與作息納入介入計畫，但不以道德評價取代功能分析。</li></ul>
+<h3>10. 可泛化原則</h3>
+<p>介入時間長不等於介入有效。判讀介入反應時，必須確認教學是否足量、穩定且對準 primary deficit。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S6" title="Day 2 個案 7–11、13–14 摘要">S6</button><button class="citation" type="button" data-source="S8" title="Day 1–2 私有錄音逐字稿 package">S8</button></div>
+    </details>
+  </article>
+
+  <article class="case-card" data-day="day2" data-status="insufficient" data-search="2 月補充案例 12，未確認與 7 月同案；無 7 月教授結論 這是 2 月研習資料中的補充案例，具有既往書寫困難與長期支持背景；**目前沒有證據可確認它與 7 月 day 2 的個案 12 為同一案，也沒有 7 月教授討論錄音。** 資料不足">
+    <div class="case-topline">
+      <span class="case-number">12</span>
+      <div class="case-heading">
+        <p class="case-date">07/09 · 資料不足</p>
+        <h3>補充案例：未確認與 7 月同案；無 7 月教授結論</h3>
+      </div>
+      <span class="status status-insufficient">資料不足</span>
+    </div>
+    <p class="case-picture">這是 2 月研習資料中的補充案例，具有既往書寫困難與長期支持背景；<strong>目前沒有證據可確認它與 7 月 Day 2 的個案 12 為同一案，也沒有 7 月教授討論錄音。</strong></p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><h3>1. 快速 picture</h3>
+<p>這是 2 月研習資料中的補充案例，具有既往書寫困難與長期支持背景；<strong>目前沒有證據可確認它與 7 月 Day 2 的個案 12 為同一案，也沒有 7 月教授討論錄音。</strong></p>
+<h3>2. 關鍵證據</h3>
+<ul><li>候選附件顯示既往曾以書寫困難接受支持。</li><li>現況描述同時出現書寫、閱讀、數學及注意力相關線索。</li><li>附件包含認知與學業評估，但 OCR 品質不足，且本頁不呈現原始測驗分數或作答 payload。</li><li>相同案例編號是目前唯一表面連結，不足以證明同一案。</li></ul>
+<h3>3. 七步驟研判</h3>
+<ol><li><strong>確認學業困難</strong>：補充資料顯示長期學業與書寫需求。</li><li><strong>能力估計</strong>：需回查去識別的正式評估摘要，不能依 OCR 零散欄位判讀。</li><li><strong>找 primary deficit</strong>：書寫提取、記憶或注意力皆可能，但尚未確認。</li><li><strong>建立因果連結</strong>：現有候選資料無法建立穩定且可驗證的因果鏈。</li><li><strong>非預期低成就</strong>：長期困難可能支持，但介入反應不清。</li><li><strong>排除因素</strong>：注意力、教學機會、練習與介入內容仍需釐清。</li><li><strong>亞型與鑑定句</strong>：無法由現有資料重新確認亞型，更不能當成 7 月教授結論。</li></ol>
+<h3>4. 分組意見與分歧</h3>
+<p>沒有 7 月個案 12 的分組討論資料。2 月候選附件也不是教授回饋逐字稿，因此無從整理分組分歧。</p>
+<h3>5. 教授結論</h3>
+<p><strong>無 7 月教授結論。不得依其他案例或 2 月附件補造。</strong></p>
+<h3>6. 排除因素與替代解釋</h3>
+<ul><li>注意力或記憶提取造成書寫與作業表現不穩。</li><li>廣泛低成就而非單一書寫亞型。</li><li>介入內容、練習量或學習機會影響現況。</li><li>2 月候選案例與 7 月個案 12 根本不是同一案。</li></ul>
+<h3>7. 資料缺口</h3>
+<ul><li>7 月個案 12 的錄音、摘要或去識別討論紀錄。</li><li>可比對的非識別共同指紋，例如年段、主訴、測驗組合與功能型態。</li><li>去識別的正式綜合研判與介入反應。</li></ul>
+<h3>8. 建議補件／補測</h3>
+<ul><li>優先尋找 7 月個案 12 的討論紙本、錄音或筆記，而不是增加新測驗。</li><li>若要使用 2 月補充案例，先取得去識別的正式評估摘要及介入紀錄。</li><li>僅在出現多個一致的非識別共同指紋後，才重新評估是否為同一案。</li></ul>
+<h3>9. 介入與 accommodation</h3>
+<p>在亞型未確認前，可依功能需求提供結構化書寫教學、延宕提取練習、鍵盤或口述替代輸出、分段指令及注意力支持；這些支持不代表已確認 7 月個案 12 的身分。</p>
+<h3>10. 可泛化原則</h3>
+<p>相同案例編號不構成同一案證明。沒有共同指紋或原始討論時，只能列為補充材料，來源狀態與知識結論必須分開標示。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S10" title="2 月補充案例 12 候選資料，未確認與 7 月同案">S10</button></div>
+    </details>
+  </article>
+
+  <article class="case-card" data-day="day2" data-status="not-supported" data-search="個案 13：no primary deficit，需求不等於障礙成立 學生有真實需求、學習動機及正常能力，但現有資料無法說明是哪個核心缺陷造成閱讀或書寫困難。 非特／不支持">
+    <div class="case-topline">
+      <span class="case-number">13</span>
+      <div class="case-heading">
+        <p class="case-date">07/09 · 非特／不支持</p>
+        <h3>No primary deficit，需求不等於障礙成立</h3>
+      </div>
+      <span class="status status-not-supported">非特／不支持</span>
+    </div>
+    <p class="case-picture">學生有真實需求、學習動機及正常能力，但現有資料無法說明是哪個核心缺陷造成閱讀或書寫困難。</p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><h3>1. 快速 picture</h3>
+<p>學生有真實需求、學習動機及正常能力，但現有資料無法說明是哪個核心缺陷造成閱讀或書寫困難。</p>
+<h3>2. 關鍵證據</h3>
+<ul><li>中文識字低，書寫表現也不好。</li><li>閱讀理解結果前後不一致。</li><li>PA、RAN 與注音辨識未呈現明顯問題。</li><li>處理速度僅偏慢，注意力也只是可能性。</li><li>學習動機及基本環境排除因素未見重大疑慮。</li></ul>
+<h3>3. 七步驟研判</h3>
+<ol><li><strong>確認學業困難</strong>：學業困難成立。</li><li><strong>能力估計</strong>：整體能力可視為正常。</li><li><strong>找 primary deficit</strong>：現有資料找不到穩定核心缺陷。</li><li><strong>建立因果連結</strong>：無法建立缺陷與閱讀或書寫的因果鏈。</li><li><strong>非預期低成就</strong>：有可能，但不能跳過 Step 3、Step 4。</li><li><strong>排除因素</strong>：家庭與動機疑慮較小；注意力等因素仍未釐清。</li><li><strong>亞型與鑑定句</strong>：正式亞型無法判定。</li></ol>
+<h3>4. 分組意見與分歧</h3>
+<p>有組別主張補件重判；有組別因學生年紀較小、需求明顯而傾向先給疑似或先支持後觀察。</p>
+<h3>5. 教授結論</h3>
+<p>正式研判是「目前核心障礙證據不足」，也就是 <code>No primary deficit</code>。實務上可以先介入，但不能把「需要幫忙」直接等同於「SLD 亞型成立」。</p>
+<h3>6. 排除因素與替代解釋</h3>
+<ul><li>識字量不足造成書寫困難。</li><li>注意力或其他尚未辨識的歷程因素。</li><li>送件主訴與測驗選擇失焦，使資料無法形成一致故事。</li></ul>
+<h3>7. 資料缺口</h3>
+<ul><li>明確的轉介主訴與優先問題。</li><li>語音提取、字形提取及書寫錯誤型態。</li><li>書寫困難是否獨立於識字量。</li><li>針對性介入後的反應。</li></ul>
+<h3>8. 建議補件／補測</h3>
+<ul><li>重新聚焦主訴，再選擇 PA、RAN、字詞提取或書寫作業。</li><li>蒐集聽寫、延宕書寫、自由書寫及課堂作業樣本。</li><li>進行短期、對準假設缺陷的介入與 progress monitoring。</li><li>補充跨情境注意力觀察。</li></ul>
+<h3>9. 介入與 accommodation</h3>
+<ul><li>先提供早期密集介入並持續監測進步。</li><li>提供書寫框架、字詞提示、口述或選字輔助。</li><li>在證據鏈完成前，不急於固定永久亞型。</li></ul>
+<h3>10. 可泛化原則</h3>
+<p>需求、正常智力與低成就仍不足以構成 SLD。Step 3 的 primary deficit 與 Step 4 的因果連結缺一不可。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S6" title="Day 2 個案 7–11、13–14 摘要">S6</button><button class="citation" type="button" data-source="S8" title="Day 1–2 私有錄音逐字稿 package">S8</button></div>
+    </details>
+  </article>
+
+  <article class="case-card" data-day="day2" data-status="conditional" data-search="個案 14：注意力不足成立後，仍須連到學業亞型 課堂所稱 add／注意力不足較明顯，過動證據不足。閱讀方向不支持；書寫較可能受注意力與記憶提取影響，數學則取決於教師主訴與補充證據。 條件式／疑似">
+    <div class="case-topline">
+      <span class="case-number">14</span>
+      <div class="case-heading">
+        <p class="case-date">07/09 · 條件式／疑似</p>
+        <h3>注意力不足成立後，仍須連到學業亞型</h3>
+      </div>
+      <span class="status status-conditional">條件式／疑似</span>
+    </div>
+    <p class="case-picture">課堂所稱 ADD／注意力不足較明顯，過動證據不足。閱讀方向不支持；書寫較可能受注意力與記憶提取影響，數學則取決於教師主訴與補充證據。</p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><h3>1. 快速 picture</h3>
+<p>課堂所稱 ADD／注意力不足較明顯，過動證據不足。閱讀方向不支持；書寫較可能受注意力與記憶提取影響，數學則取決於教師主訴與補充證據。</p>
+<h3>2. 關鍵證據</h3>
+<ul><li>有注意力相關醫療與用藥資料，但穩定服藥及實際效果不明。</li><li>認知結果前後變動大，可能受注意力或施測狀態影響。</li><li>閱讀與識字表現不支持明顯閱讀障礙。</li><li>書寫速度慢，剛學完可能寫得出來，延宕後提取較困難。</li><li>數學部分有低落線索，但不確定是否為本次主要送件主訴。</li></ul>
+<h3>3. 七步驟研判</h3>
+<ol><li><strong>確認學業困難</strong>：學業困難存在。</li><li><strong>能力估計</strong>：能力應在正常範圍，單次低分不宜直接視為真實能力。</li><li><strong>找 primary deficit</strong>：注意力或工作記憶是主要候選缺陷。</li><li><strong>建立因果連結</strong>：與書寫速度及延宕提取可連結；數學連結待補。</li><li><strong>非預期低成就</strong>：若穩定接受注意力處置後困難仍存在，支持度較高。</li><li><strong>排除因素</strong>：練習、支持、刺激與用藥穩定性仍需排除。</li><li><strong>亞型與鑑定句</strong>：若注意力不足成立，書寫最可能；數學須依主訴補證據，閱讀不支持。</li></ol>
+<h3>4. 分組意見與分歧</h3>
+<p>現場出現非特、書寫亞型、數學亞型及轉由其他障別考量等不同意見。爭議在於注意力問題是否已充分確認，以及它主要影響哪一項學業功能。</p>
+<h3>5. 教授結論</h3>
+<p>依課堂研判邏輯，若 ADD 成立，不能只寫 ADD 而不說明主要受影響的學業亞型。目前書寫最可能；若數學才是主要困難，需由送件教師補足數學證據。閱讀方向走不動。</p>
+<h3>6. 排除因素與替代解釋</h3>
+<ul><li>練習不足、刺激不足或支持不足。</li><li>用藥不規律或施測時注意力波動。</li><li>即時聽寫成功可能只是短期記憶與密集練習效果。</li><li>是否具有明顯過動或衝動表現，證據仍不足。</li></ul>
+<h3>7. 資料缺口</h3>
+<ul><li>醫療結論、教師與家長量表的一致性。</li><li>用藥前後及跨情境的功能變化。</li><li>延宕書寫與自發書寫資料。</li><li>數學主訴、數感及解題歷程證據。</li></ul>
+<h3>8. 建議補件／補測</h3>
+<ul><li>跨情境注意力資料及穩定用藥紀錄。</li><li>立即與延宕聽寫、自由書寫、限時與不限時比較。</li><li>若主訴為數學，補數感、計算及解題策略資料。</li><li>釐清注意力不足與過動／衝動表現是否同時存在。</li></ul>
+<h3>9. 介入與 accommodation</h3>
+<ul><li>低干擾環境、短指令、分段任務與合理延長時間。</li><li>間隔與延宕提取練習，避免只看剛教完的立即表現。</li><li>書寫框架、鍵盤或語音輸入等替代輸出方式。</li><li>由醫療與學校共同追蹤處置前後的實際學業功能。</li></ul>
+<h3>10. 可泛化原則</h3>
+<p>注意力問題可以解釋分數波動，但仍需指出它如何造成特定學業功能受限。不要以單次低分直接指定亞型，也不要讓注意力標籤取代閱讀、書寫或數學的功能分析。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S6" title="Day 2 個案 7–11、13–14 摘要">S6</button><button class="citation" type="button" data-source="S8" title="Day 1–2 私有錄音逐字稿 package">S8</button></div>
+    </details>
+  </article>
+
+  <article class="case-card" data-day="day3" data-status="not-supported" data-search="個案 15：數學線索存在，但核心缺陷與排除因素不足 數學低成就與數感弱勢有線索，但閱讀主訴、測驗結果與現場表現互相矛盾；視力、注意力、動機、教學品質與介入均未排除乾淨。 非特／不支持">
+    <div class="case-topline">
+      <span class="case-number">15</span>
+      <div class="case-heading">
+        <p class="case-date">07/10 · 非特／不支持</p>
+        <h3>數學線索存在，但核心缺陷與排除因素不足</h3>
+      </div>
+      <span class="status status-not-supported">非特／不支持</span>
+    </div>
+    <p class="case-picture">數學低成就與數感弱勢有線索，但閱讀主訴、測驗結果與現場表現互相矛盾；視力、注意力、動機、教學品質與介入均未排除乾淨。</p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><h3>Picture</h3>
+<p>數學低成就與數感弱勢有線索，但閱讀主訴、測驗結果與現場表現互相矛盾；視力、注意力、動機、教學品質與介入均未排除乾淨。</p>
+<h3>關鍵證據</h3>
+<ul><li>流體與數量推理相對弱，部分數感題有困難。</li><li>基本運算仍可通過，兩份數學資料的表現差距大。</li><li>閱讀理解通過，識字主訴與實測資料不一致。</li></ul>
+<h3>七步驟</h3>
+<ol><li><strong>學業困難</strong>：數學困難可能成立；閱讀主訴缺乏一致證據。</li><li><strong>能力估計</strong>：能力相對偏弱，但未形成明確障礙圖型。</li><li><strong>核心缺陷</strong>：數感僅是線索，不足以確認穩定 deficit。</li><li><strong>缺陷連結</strong>：尚無法建立數感缺陷到數學低成就的乾淨因果鏈。</li><li><strong>非預期性</strong>：能力與成就落差不明確。</li><li><strong>排除因素</strong>：視力、動機、注意、指令理解、教學與介入品質均未釐清。</li><li><strong>鑑定句</strong>：不宜直接確認 SLD。</li></ol>
+<h3>分歧</h3>
+<p>各組分為疑似數學、待觀察與非特，差異主要來自是否把相對弱的數感視為核心缺陷，以及是否認為現有排除證據足夠。</p>
+<h3>教授結論</h3>
+<p>不給確認。較寬鬆可列疑似或待觀察，但教授本人傾向 <code>no deficit</code>／非特。</p>
+<h3>排除／替代解釋</h3>
+<p>未矯正視力、低動機、注意與指令理解、練習不足、教室支持及介入品質，都可能比 SLD 更能解釋目前表現。</p>
+<h3>缺口</h3>
+<p>缺少長期數學學習軌跡、現場數感與計算表現、有效介入及反應、視力處理後表現。</p>
+<h3>補件／補測</h3>
+<p>補國小歷程、數感與計算的質性錯誤、課堂觀察、介入頻率與 fidelity，以及視力處理紀錄。</p>
+<h3>介入／Accommodation</h3>
+<p>先處理視力與教室支持，提供明確分段指令及基礎數感介入；現階段不宜只憑 SLD 標籤配置正式 accommodation。</p>
+<h3>泛化原則</h3>
+<p>相對弱項或單一低分不等於核心缺陷；主訴與實際資料不一致時，要先停下來補證。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S7" title="Day 3 Dyslexia、書寫、服務與個案摘要">S7</button><button class="citation" type="button" data-source="S9" title="Day 3 私有錄音逐字稿 package">S9</button></div>
+    </details>
+  </article>
+
+  <article class="case-card" data-day="day3" data-status="confirmed" data-search="個案 16：高能力補償型 dyslexia 高推理、視覺空間與理解能力掩蓋明顯的語音、注音、解碼、流暢性與字詞提取困難，是高能力補償型 dyslexia。 確認支持">
+    <div class="case-topline">
+      <span class="case-number">16</span>
+      <div class="case-heading">
+        <p class="case-date">07/10 · 確認支持</p>
+        <h3>高能力補償型 Dyslexia</h3>
+      </div>
+      <span class="status status-confirmed">確認支持</span>
+    </div>
+    <p class="case-picture">高推理、視覺空間與理解能力掩蓋明顯的語音、注音、解碼、流暢性與字詞提取困難，是高能力補償型 Dyslexia。</p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><h3>Picture</h3>
+<p>高推理、視覺空間與理解能力掩蓋明顯的語音、注音、解碼、流暢性與字詞提取困難，是高能力補償型 Dyslexia。</p>
+<h3>關鍵證據</h3>
+<ul><li>注音與語音連結明顯弱，單字處理、朗讀與跨語言拼讀困難。</li><li>閱讀理解仍佳，能用整字記憶、推論與背景知識補償。</li><li>字詞提取不穩，常知道概念卻需用描述繞行。</li><li>工作記憶與處理速度相對弱，但整體推理能力高。</li></ul>
+<h3>七步驟</h3>
+<ol><li><strong>學業困難</strong>：閱讀與解碼困難長期成立。</li><li><strong>能力估計</strong>：推理與視覺空間能力明顯在正常以上。</li><li><strong>核心缺陷</strong>：音韻處理、語音連結、快速提取與自動化缺陷明確。</li><li><strong>缺陷連結</strong>：可連至識字、朗讀、拼讀、書寫與跨語言學習困難。</li><li><strong>非預期性</strong>：高能力對照低解碼表現，落差明確。</li><li><strong>排除因素</strong>：閱讀理解佳或較晚被發現，都不能排除 Dyslexia。</li><li><strong>鑑定句</strong>：Dyslexia／閱讀亞型確認，並需處理書寫功能需求。</li></ol>
+<h3>分歧</h3>
+<p>少數組因書寫樣本不足而只判閱讀或疑似；其他組依語音、解碼與補償圖型判 Dyslexia。</p>
+<h3>教授結論</h3>
+<p>屬典型且明確的 Dyslexia。閱讀一定成立；高智力與閱讀理解佳是補償表現，不是反證。</p>
+<h3>排除／替代解釋</h3>
+<p>不是智能不足，也不是單純學習動機問題。較晚發現可由高能力補償與過去未能辨識需求解釋。</p>
+<h3>缺口</h3>
+<p>若正式納入書寫亞型，仍宜補自主書寫與低書寫負荷條件的差異證據。</p>
+<h3>補件／補測</h3>
+<p>整合聲韻覺識、解碼、RAN、朗讀流暢、跨語言拼讀，以及口語與書寫輸出的差異。</p>
+<h3>介入／Accommodation</h3>
+<p>提供報讀、延長時間、放大字距與作答空間、圖像及結構化教材、口頭作答、語音輸入與數位工具；介入可採音節／詞素分解、短詞短句及明確語音連結。</p>
+<h3>泛化原則</h3>
+<p>不要被高 IQ 或閱讀理解分數騙過；要找學生的補償策略、付出成本與底層解碼表現。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S7" title="Day 3 Dyslexia、書寫、服務與個案摘要">S7</button><button class="citation" type="button" data-source="S9" title="Day 3 私有錄音逐字稿 package">S9</button></div>
+    </details>
+  </article>
+
+  <article class="case-card" data-day="day3" data-status="not-supported" data-search="個案 17：國中數學低成就不等於數學 sld 數學表現低落，但整體學業普遍低、基本算術尚可，且長期歷程、練習、動機與支持資料不足，並非典型數學 sld。 非特／不支持">
+    <div class="case-topline">
+      <span class="case-number">17</span>
+      <div class="case-heading">
+        <p class="case-date">07/10 · 非特／不支持</p>
+        <h3>國中數學低成就不等於數學 SLD</h3>
+      </div>
+      <span class="status status-not-supported">非特／不支持</span>
+    </div>
+    <p class="case-picture">數學表現低落，但整體學業普遍低、基本算術尚可，且長期歷程、練習、動機與支持資料不足，並非典型數學 SLD。</p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><h3>Picture</h3>
+<p>數學表現低落，但整體學業普遍低、基本算術尚可，且長期歷程、練習、動機與支持資料不足，並非典型數學 SLD。</p>
+<h3>關鍵證據</h3>
+<ul><li>較複雜運算或邏輯有困難，簡單計算相對較好。</li><li>轉介呈現多領域低落，而非特定數學困難。</li><li>缺少早期數學學習與介入歷程，難以判斷是學不會、遺忘或練習不足。</li></ul>
+<h3>七步驟</h3>
+<ol><li><strong>學業困難</strong>：低成就成立，但不具領域特定性。</li><li><strong>能力估計</strong>：整體能力未呈現明顯優勢。</li><li><strong>核心缺陷</strong>：數學核心缺陷不清楚。</li><li><strong>缺陷連結</strong>：無法證明數學歷程缺陷是主要原因。</li><li><strong>非預期性</strong>：能力、學習機會與成就間的非預期落差不足。</li><li><strong>排除因素</strong>：動機、練習、先備知識與支持未排除。</li><li><strong>鑑定句</strong>：非特較合理；若保留，僅能疑似並追查。</li></ol>
+<h3>分歧</h3>
+<p>部分組給數學，部分給疑似或非特；主要差異是如何解讀國中階段的低成就，以及是否願意在缺少國小歷程時先保留身分。</p>
+<h3>教授結論</h3>
+<p>非特機率高，屬非典型個案。若實際需求很高可保留另一條路徑，但不能只看當下數學低分。</p>
+<h3>排除／替代解釋</h3>
+<p>先備知識中斷、缺乏練習、曾學內容遺忘、低動機與全面性低成就，都可能解釋目前表現。</p>
+<h3>缺口</h3>
+<p>缺少早期各年級數學表現、曾否學會、數感／計算／推理的持續性，以及介入反應。</p>
+<h3>補件／補測</h3>
+<p>回溯歷年學習資料，交叉比對數感、計算、應用題與介入紀錄，不應只再做一次當下成就測驗。</p>
+<h3>介入／Accommodation</h3>
+<p>先教功能性與更基礎的數學，重建先備技能與練習習慣；是否需要正式 accommodation 應待核心缺陷釐清。</p>
+<h3>泛化原則</h3>
+<p>國中數學失守可能是累積性先備知識缺口；需證明特定核心缺陷，而非只看年級落差。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S7" title="Day 3 Dyslexia、書寫、服務與個案摘要">S7</button><button class="citation" type="button" data-source="S9" title="Day 3 私有錄音逐字稿 package">S9</button></div>
+    </details>
+  </article>
+
+  <article class="case-card" data-day="day3" data-status="confirmed" data-search="個案 18：讀寫困難明確，注意力不是主要解釋 長期且明確的識字、解碼、字形提取與書寫困難；在報讀、延長時間或選擇式輸出下能顯示理解。注意力問題曾被記錄，但近期可長時間完成工作，不能解釋主要讀寫困難。 確認支持">
+    <div class="case-topline">
+      <span class="case-number">18</span>
+      <div class="case-heading">
+        <p class="case-date">07/10 · 確認支持</p>
+        <h3>讀寫困難明確，注意力不是主要解釋</h3>
+      </div>
+      <span class="status status-confirmed">確認支持</span>
+    </div>
+    <p class="case-picture">長期且明確的識字、解碼、字形提取與書寫困難；在報讀、延長時間或選擇式輸出下能顯示理解。注意力問題曾被記錄，但近期可長時間完成工作，不能解釋主要讀寫困難。</p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><h3>Picture</h3>
+<p>長期且明確的識字、解碼、字形提取與書寫困難；在報讀、延長時間或選擇式輸出下能顯示理解。注意力問題曾被記錄，但近期可長時間完成工作，不能解釋主要讀寫困難。</p>
+<h3>關鍵證據</h3>
+<ul><li>自主字形書寫嚴重困難，但抄寫可完成。</li><li>識字與解碼顯著弱，報讀後理解與數學表現提升。</li><li>語詞命名及精確提取弱，需大量時間才能輸出。</li><li>可持續專注完成完整工作，注意力不是主要限制。</li></ul>
+<h3>七步驟</h3>
+<ol><li><strong>學業困難</strong>：閱讀與書寫困難長期成立。</li><li><strong>能力估計</strong>：理解與推理能力可由低文字負荷情境看出。</li><li><strong>核心缺陷</strong>：解碼、字形提取、詞彙提取與處理速度缺陷明確。</li><li><strong>缺陷連結</strong>：連至識字、朗讀、書寫、即時命名與限時作答。</li><li><strong>非預期性</strong>：在充足時間或報讀下可完成，顯示能力與一般條件下表現有落差。</li><li><strong>排除因素</strong>：注意力不是讀寫困難的主要原因。</li><li><strong>鑑定句</strong>：閱讀與書寫亞型確認；數學需另行求證。</li></ol>
+<h3>分歧</h3>
+<p>分歧集中在數學是否納入、注意力是否並列；閱讀與書寫結論較一致。</p>
+<h3>教授結論</h3>
+<p>確認個案，閱讀成立，完整資料支持閱讀與書寫。注意力可註記，但不是讀寫困難的唯一或主要解釋；數學證據不足。</p>
+<h3>排除／替代解釋</h3>
+<p>基本運算慢可能來自讀題、提取與處理速度，而不一定是數感缺陷。能專注完成工作也削弱了「全由注意力造成」的解釋。</p>
+<h3>缺口</h3>
+<p>數學困難究竟是基本數感／運算缺陷，或文字解碼與提取造成的次級負荷；正式報告也需清楚呈現自主書寫證據。</p>
+<h3>補件／補測</h3>
+<p>比較報讀與自行讀題、限時與不限時、抄寫與自主書寫，以及使用與不使用計算工具的表現。</p>
+<h3>介入／Accommodation</h3>
+<p>提供報讀、延長時間、放大作答空間、選擇式回答、計算工具、有聲書、語音輸入、口頭作答、平板、視覺提示與心智圖；命名訓練一次鎖定 1–2 個詞。</p>
+<h3>泛化原則</h3>
+<p>能抄不等於能自主提取；「是否會」與「在什麼條件下能表現」必須分開。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S7" title="Day 3 Dyslexia、書寫、服務與個案摘要">S7</button><button class="citation" type="button" data-source="S9" title="Day 3 私有錄音逐字稿 package">S9</button></div>
+    </details>
+  </article>
+
+  <article class="case-card" data-day="day3" data-status="conditional" data-search="個案 19：有 dyslexia 片段，但尚未形成完整 picture 具閱讀、書寫與 dyslexia 線索，但資料尚未構成完整圖像；能力不差，卻有解碼、ran、字形提取及書寫品質問題，同時伴隨焦慮、逃避與支持疑慮。 條件式／疑似">
+    <div class="case-topline">
+      <span class="case-number">19</span>
+      <div class="case-heading">
+        <p class="case-date">07/10 · 條件式／疑似</p>
+        <h3>有 Dyslexia 片段，但尚未形成完整 picture</h3>
+      </div>
+      <span class="status status-conditional">條件式／疑似</span>
+    </div>
+    <p class="case-picture">具閱讀、書寫與 Dyslexia 線索，但資料尚未構成完整圖像；能力不差，卻有解碼、RAN、字形提取及書寫品質問題，同時伴隨焦慮、逃避與支持疑慮。</p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><h3>Picture</h3>
+<p>具閱讀、書寫與 Dyslexia 線索，但資料尚未構成完整圖像；能力不差，卻有解碼、RAN、字形提取及書寫品質問題，同時伴隨焦慮、逃避與支持疑慮。</p>
+<h3>關鍵證據</h3>
+<ul><li>快速念名未過、解碼弱、字形提取及自主書寫差。</li><li>已有學校介入，但書寫品質仍差。</li><li>流體推理佳；部分識字／流暢資料又不差，聽覺理解與口語輸出不穩。</li><li>焦慮與逃避可能是長期失敗結果，也可能干擾表現。</li></ul>
+<h3>七步驟</h3>
+<ol><li><strong>學業困難</strong>：閱讀與書寫困難成立。</li><li><strong>能力估計</strong>：基本能力正常且有優勢。</li><li><strong>核心缺陷</strong>：有 Dyslexia pieces，但口語、語音與提取圖像不完整。</li><li><strong>缺陷連結</strong>：可部分連至讀寫，尚非完整因果鏈。</li><li><strong>非預期性</strong>：能力與讀寫表現間具落差。</li><li><strong>排除因素</strong>：練習、支持、注意與焦慮仍需區辨。</li><li><strong>鑑定句</strong>：可先給閱讀／書寫支持或疑似，不宜直接下 Dyslexia。</li></ol>
+<h3>分歧</h3>
+<p>各組在確認書寫／閱讀、給疑似，以及能否直接使用 Dyslexia 名稱之間分歧。</p>
+<h3>教授結論</h3>
+<p><code>Not sure dyslexia or not</code>。可先給 reading／writing 或疑似並立即介入；疑似不能只掛名而沒有介入。</p>
+<h3>排除／替代解釋</h3>
+<p>課業支持、練習量、注意力與累積挫折仍需釐清。焦慮也可能是長期讀寫失敗的結果，不能直接當成排除理由。</p>
+<h3>缺口</h3>
+<p>缺少早期語音學習史、獨立閱讀與文本閱讀流暢差異，以及口語和書寫／非口語輸出的比較。</p>
+<h3>補件／補測</h3>
+<p>補聲韻覺識、獨立字詞解碼、文本流暢、聽覺理解、口語敘事及自主書寫比較。</p>
+<h3>介入／Accommodation</h3>
+<p>立即提供閱讀與書寫支持、低負荷提取練習、報讀、口語或數位輸出；依介入反應再確認。</p>
+<h3>泛化原則</h3>
+<p>出現幾個 Dyslexia 特徵不等於已有完整 Dyslexia picture。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S7" title="Day 3 Dyslexia、書寫、服務與個案摘要">S7</button><button class="citation" type="button" data-source="S9" title="Day 3 私有錄音逐字稿 package">S9</button></div>
+    </details>
+  </article>
+
+  <article class="case-card" data-day="day3" data-status="insufficient" data-search="個案 20：短錄音，無法重建判案結論 無法由現有錄音可靠重建。 資料不足">
+    <div class="case-topline">
+      <span class="case-number">20</span>
+      <div class="case-heading">
+        <p class="case-date">07/10 · 資料不足</p>
+        <h3>短錄音，無法重建判案結論</h3>
+      </div>
+      <span class="status status-insufficient">資料不足</span>
+    </div>
+    <p class="case-picture">無法由現有錄音可靠重建。</p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><aside class="callout"><p>本案錄音只有約 30 秒、15 個 segments、約 155 字，且多數語句斷裂。不得依零碎詞句補造 picture、七步驟或教授結論。</p></aside>
+<h3>Picture</h3>
+<p>無法由現有錄音可靠重建。</p>
+<h3>關鍵證據</h3>
+<p>僅可辨認「同一向度的分數差距很大」「工作記憶偏高」「表現非常不穩」等零碎論述；這些資訊不足以形成個案圖像。</p>
+<h3>七步驟</h3>
+<ol><li><strong>學業困難</strong>：資料不足。</li><li><strong>能力估計</strong>：資料不足。</li><li><strong>核心缺陷</strong>：資料不足。</li><li><strong>缺陷連結</strong>：資料不足。</li><li><strong>非預期性</strong>：資料不足。</li><li><strong>排除因素</strong>：資料不足。</li><li><strong>鑑定句</strong>：無法形成。</li></ol>
+<h3>分歧</h3>
+<p>錄音未保留各組判定，無法整理分歧。</p>
+<h3>教授結論</h3>
+<p>無法由現有錄音確認，不能補造。</p>
+<h3>排除／替代解釋</h3>
+<p>未知。</p>
+<h3>缺口</h3>
+<p>完整主訴、學業表現、能力、核心缺陷、排除因素、各組討論與結論均缺件。</p>
+<h3>補件／補測</h3>
+<p>優先找原討論表、講義個案頁、其他錄音或在場筆記；不是先追加測驗。</p>
+<h3>介入／Accommodation</h3>
+<p>無法由本段錄音提出個案特定建議。</p>
+<h3>泛化原則</h3>
+<p>極短錄音只能作為「曾有討論」的來源指標，不可用零碎語句補造案例。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S7" title="Day 3 Dyslexia、書寫、服務與個案摘要">S7</button><button class="citation" type="button" data-source="S9" title="Day 3 私有錄音逐字稿 package">S9</button></div>
+    </details>
+  </article>
+
+  <article class="case-card" data-day="day3" data-status="confirmed" data-search="個案 21：文化背景不能取代解碼缺陷判斷 識字與解碼低到影響各領域學習；家庭語言背景需要理解，但學生長期接受本地學校與社會語言刺激，不能直接以文化因素排除。 確認支持">
+    <div class="case-topline">
+      <span class="case-number">21</span>
+      <div class="case-heading">
+        <p class="case-date">07/10 · 確認支持</p>
+        <h3>文化背景不能取代解碼缺陷判斷</h3>
+      </div>
+      <span class="status status-confirmed">確認支持</span>
+    </div>
+    <p class="case-picture">識字與解碼低到影響各領域學習；家庭語言背景需要理解，但學生長期接受本地學校與社會語言刺激，不能直接以文化因素排除。</p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><h3>Picture</h3>
+<p>識字與解碼低到影響各領域學習；家庭語言背景需要理解，但學生長期接受本地學校與社會語言刺激，不能直接以文化因素排除。</p>
+<h3>關鍵證據</h3>
+<ul><li>多項識字與閱讀作答近乎空白。</li><li>教師觀察指出注音困難嚴重，解碼缺陷明顯。</li><li>低識字已廣泛影響學習，但其他能力資料仍可支持學習潛力。</li></ul>
+<h3>七步驟</h3>
+<ol><li><strong>學業困難</strong>：閱讀與識字困難明確。</li><li><strong>能力估計</strong>：不能以語文低分單獨低估整體能力。</li><li><strong>核心缺陷</strong>：decoding deficit。</li><li><strong>缺陷連結</strong>：低識字與解碼困難已影響各科學習。</li><li><strong>非預期性</strong>：困難程度與長期就學及語言暴露機會不相稱。</li><li><strong>排除因素</strong>：家庭語言背景不能充分解釋長期、跨情境的解碼困難。</li><li><strong>鑑定句</strong>：閱讀識字確認；書寫待補證後可加入。</li></ol>
+<h3>分歧</h3>
+<p>分歧主要在文化／語言因素是否排除，以及是否同時納入書寫。</p>
+<h3>教授結論</h3>
+<p>閱讀識字一定要先給並立即介入；解碼缺陷可由教師補充後確認。書寫可補證後加入。</p>
+<h3>排除／替代解釋</h3>
+<p>家庭語言與文化背景需要檢視，但不能取代對長期解碼證據的判讀，也不足以單獨解釋目前困難。</p>
+<h3>缺口</h3>
+<p>缺少完整解碼說明、自主書寫，以及抄寫速度與品質資料。</p>
+<h3>補件／補測</h3>
+<p>補聲韻／注音、字詞解碼、識字、獨立閱讀、書寫樣本與語言學習史。</p>
+<h3>介入／Accommodation</h3>
+<p>先進入閱讀服務，密集教注音、解碼與高頻字；評量可報讀並降低不必要的識字負荷。</p>
+<h3>泛化原則</h3>
+<p>文化敏感不等於用文化背景取消障礙；要比較實際語言暴露與困難持續性。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S7" title="Day 3 Dyslexia、書寫、服務與個案摘要">S7</button><button class="citation" type="button" data-source="S9" title="Day 3 私有錄音逐字稿 package">S9</button></div>
+    </details>
+  </article>
+
+  <article class="case-card" data-day="day3" data-status="confirmed" data-search="個案 22：純書寫困難與服務選擇 純書寫困難明確；學生抗拒打字、口述或差異化服務，但拒絕服務不會使功能限制消失。 確認支持">
+    <div class="case-topline">
+      <span class="case-number">22</span>
+      <div class="case-heading">
+        <p class="case-date">07/10 · 確認支持</p>
+        <h3>純書寫困難與服務選擇</h3>
+      </div>
+      <span class="status status-confirmed">確認支持</span>
+    </div>
+    <p class="case-picture">純書寫困難明確；學生抗拒打字、口述或差異化服務，但拒絕服務不會使功能限制消失。</p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><h3>Picture</h3>
+<p>純書寫困難明確；學生抗拒打字、口述或差異化服務，但拒絕服務不會使功能限制消失。</p>
+<h3>關鍵證據</h3>
+<ul><li>書寫產出品質與功能顯著受限。</li><li>能形成部分內容，但實際寫出成果不佳。</li><li>不願使用電腦或口述，可能與標籤壓力及不想與同儕不同有關。</li></ul>
+<h3>七步驟</h3>
+<ol><li><strong>學業困難</strong>：書寫功能困難成立。</li><li><strong>能力估計</strong>：能力可由非書寫表現估計。</li><li><strong>核心缺陷</strong>：本段錄音未重述精確心理歷程。</li><li><strong>缺陷連結</strong>：書寫輸出與課業功能限制的連結明確。</li><li><strong>非預期性</strong>：具有想法但書寫成果顯著受限。</li><li><strong>排除因素</strong>：拒絕 accommodation 不是排除因素。</li><li><strong>鑑定句</strong>：純書寫亞型。</li></ol>
+<h3>分歧</h3>
+<p>爭點不是障礙是否存在，而是學生不願使用特定服務時，身分與資源安排能提供多少實際效益。</p>
+<h3>教授結論</h3>
+<p>純書寫困難明確，應保留身分與支持選項。</p>
+<h3>排除／替代解釋</h3>
+<p>自主性、標籤壓力及服務形式不合需求，可以解釋拒絕，但不能解釋書寫缺陷本身。</p>
+<h3>缺口</h3>
+<p>缺少學生可接受的支持方式、各輸出條件的功能比較，以及現有課程是否真正對準書寫需求。</p>
+<h3>補件／補測</h3>
+<p>比較手寫、打字、口述與選擇式作答的時間及品質，並進行去標籤化的學生需求訪談。</p>
+<h3>介入／Accommodation</h3>
+<p>以協商方式提供選擇，可從低可見度工具、較大書寫空間、延長時間與分段輸出開始，不強迫單一方案。</p>
+<h3>泛化原則</h3>
+<p>服務使用意願與障礙是否存在是兩個問題；支持要兼顧功能、選擇與尊嚴。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S7" title="Day 3 Dyslexia、書寫、服務與個案摘要">S7</button><button class="citation" type="button" data-source="S9" title="Day 3 私有錄音逐字稿 package">S9</button></div>
+    </details>
+  </article>
+
+  <article class="case-card" data-day="day3" data-status="insufficient" data-search="個案 23：短錄音，只能確認注意力需補證 現有短錄音只足以確認注意力因素仍需補證，不足以可靠還原完整學業亞型。 資料不足">
+    <div class="case-topline">
+      <span class="case-number">23</span>
+      <div class="case-heading">
+        <p class="case-date">07/10 · 資料不足</p>
+        <h3>短錄音，只能確認注意力需補證</h3>
+      </div>
+      <span class="status status-insufficient">資料不足</span>
+    </div>
+    <p class="case-picture">現有短錄音只足以確認注意力因素仍需補證，不足以可靠還原完整學業亞型。</p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><aside class="callout"><p>本案錄音約 106 秒、48 個 segments。精確學業亞型詞被 ASR 辨成無法確認的字詞，只能保留「注意力證據不足」這項明確結論，不得猜測亞型。</p></aside>
+<h3>Picture</h3>
+<p>現有短錄音只足以確認注意力因素仍需補證，不足以可靠還原完整學業亞型。</p>
+<h3>關鍵證據</h3>
+<p>各組認為目前無法排除注意力對學習表現的影響；教授同意補足注意力相關訊息。錄音中的學業亞型詞不可可靠辨認。</p>
+<h3>七步驟</h3>
+<ol><li><strong>學業困難</strong>：錄音資料不足。</li><li><strong>能力估計</strong>：錄音資料不足。</li><li><strong>核心缺陷</strong>：錄音資料不足。</li><li><strong>缺陷連結</strong>：錄音資料不足。</li><li><strong>非預期性</strong>：錄音資料不足。</li><li><strong>排除因素</strong>：注意力尚未排除。</li><li><strong>鑑定句</strong>：應暫緩精確亞型結論。</li></ol>
+<h3>分歧</h3>
+<p>錄音未保留足夠細節；可辨識的討論焦點集中在注意力是否為主要原因。</p>
+<h3>教授結論</h3>
+<p>補足注意力證據後，再判斷它與學業困難的關係。現有片段不足以重建完整最終分類。</p>
+<h3>排除／替代解釋</h3>
+<p>注意力可能是主要解釋、共病或次級反應，三者尚未區分。</p>
+<h3>缺口</h3>
+<p>缺少跨情境注意力觀察、介入或治療條件、不同注意狀態下的學業表現，以及完整主訴。</p>
+<h3>補件／補測</h3>
+<p>補固定間隔課堂觀察、跨情境資料、不同注意條件下的學業表現與介入反應。</p>
+<h3>介入／Accommodation</h3>
+<p>先做分段指令、縮短任務、明確提示與注意支持，同時觀察核心讀寫困難是否仍持續。</p>
+<h3>泛化原則</h3>
+<p>看到 attention 不能直接排除或確認 SLD；要問它是否足以解釋特定學業困難。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S7" title="Day 3 Dyslexia、書寫、服務與個案摘要">S7</button><button class="citation" type="button" data-source="S9" title="Day 3 私有錄音逐字稿 package">S9</button></div>
+    </details>
+  </article>
+
+  <article class="case-card" data-day="day3" data-status="confirmed" data-search="個案 32：資料矛盾時以補件與申復完成判定 既有閱讀與書寫判定，但能力、測驗、作文品質與支持條件互相矛盾；補件申復後才確認閱讀與書寫。 確認支持">
+    <div class="case-topline">
+      <span class="case-number">32</span>
+      <div class="case-heading">
+        <p class="case-date">07/10 · 確認支持</p>
+        <h3>資料矛盾時以補件與申復完成判定</h3>
+      </div>
+      <span class="status status-confirmed">確認支持</span>
+    </div>
+    <p class="case-picture">既有閱讀與書寫判定，但能力、測驗、作文品質與支持條件互相矛盾；補件申復後才確認閱讀與書寫。</p>
+    <details class="case-detail">
+      <summary>展開完整研判</summary>
+      <div class="case-body"><h3>Picture</h3>
+<p>既有閱讀與書寫判定，但能力、測驗、作文品質與支持條件互相矛盾；補件申復後才確認閱讀與書寫。</p>
+<h3>關鍵證據</h3>
+<ul><li>部分閱讀結果僅在臨界，語文理解與處理速度相對弱。</li><li>書寫測驗低，但作文看似良好。</li><li>關鍵疑問是作品是否經語音輸入、打字、引導或整理後完成。</li></ul>
+<h3>七步驟</h3>
+<ol><li><strong>學業困難</strong>：在既有支持下仍有需求，但原始獨立表現不清楚。</li><li><strong>能力估計</strong>：能力估計在邊界，並有相對穩定弱項。</li><li><strong>核心缺陷</strong>：初始資料找不到清楚著力點。</li><li><strong>缺陷連結</strong>：閱讀與書寫證據互相衝突。</li><li><strong>非預期性</strong>：必須連同作品產製與支援條件判斷。</li><li><strong>排除因素</strong>：需排除作品經大量協助後才呈現高品質。</li><li><strong>鑑定句</strong>：初判無法完成；申復補件後確認閱讀與書寫。</li></ol>
+<h3>分歧</h3>
+<p>各組在回歸普通班、保留閱讀，以及閱讀加書寫之間分歧。</p>
+<h3>教授結論</h3>
+<p>原資料無法立即判定；經正式申復與補充說明，最後判閱讀與書寫。補件與重新判定是正常程序。</p>
+<h3>排除／替代解釋</h3>
+<p>策略已學會、支持系統有效、能力與成就相符，都可能造成表面上「已不需要」；但支援後作品不能直接當作獨立能力。</p>
+<h3>缺口</h3>
+<p>缺少作文產製過程、耗時、提示量、獨立版本，以及申復時新增證據的完整對照。</p>
+<h3>補件／補測</h3>
+<p>保留原稿與修訂歷程，比較無協助、口述、打字、語音輸入及引導後的閱讀與書寫表現。</p>
+<h3>介入／Accommodation</h3>
+<p>依申復證據續提供閱讀與書寫支持；定期確認哪些策略已內化、哪些仍需外部支持。</p>
+<h3>泛化原則</h3>
+<p>高品質成品必須連同產製條件解讀；資料矛盾時應補件申復，不必硬判。</p></div>
+      <div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S7" title="Day 3 Dyslexia、書寫、服務與個案摘要">S7</button><button class="citation" type="button" data-source="S9" title="Day 3 私有錄音逐字稿 package">S9</button></div>
+    </details>
+  </article></div>
+          <p class="case-empty" id="case-empty">沒有符合條件的個案。請調整搜尋字詞或篩選條件。</p>
+          <aside class="callout"><p><strong>案例缺號說明：</strong>個案 24～31 為課程明確跳過，不建立推測性內容。個案 12 為 2 月候選補充案例，未確認與 7 月同案；個案 20、23 因錄音不足採保守呈現。</p></aside>
+        </section>
+
+        <section class="tab-panel" id="panel-workshop" role="tabpanel" aria-labelledby="tab-workshop" data-panel="workshop" hidden>
+          <div class="section-intro"><div class="chapter-mark">06</div><div><h2>三日研習複習</h2><p>從證據鏈、亞型拆解到 accommodation，把三天重複出現的判斷原則收斂成接案習慣。</p></div></div>
+          <div class="prose"><h3>Day 1：先建立 SLD 的證據鏈</h3>
+<ul><li>低成就不是起點以外的全部答案。</li><li>Step 3 primary deficit 與 Step 4 因果連結是最容易卡住的核心。</li><li>能力是估計，注意力要有具體證據，排除因素要判斷是否為主要原因。</li><li>個案 1～6 用來練習數學、閱讀、書寫、Buffet 型、Step 3 卡關與資料矛盾。</li></ul>
+<h3>Day 2：拆解閱讀、書寫、數學與 ADD</h3>
+<ul><li>注音困難要追到語音處理；中文閱讀要注意詞界線與流暢。</li><li>送件主訴決定施測焦點；資料多但沒有問題意識，反而無法形成故事。</li><li>安置不能只問是否過件，也要問服務進來後能做什麼。</li><li>個案 7～14 用來練習非典型數學、能力／排除拉扯、處理速度、多亞型、書寫證據、No primary deficit 與 ADD 連結。</li></ul>
+<h3>Day 3：Dyslexia、書寫與 accommodation</h3>
+<ul><li>中文書寫 sign 包含筆順、部件、字形提取、空間、標點、速度與抗拒，但 sign 不等於障礙。</li><li>高能力與閱讀理解佳不能排除 Dyslexia；補償策略可能掩蓋解碼缺陷。</li><li>accommodation 讓學生繞過非目標負荷、展現真正能力，不等於降低學習目標。</li><li>個案 15～23、32 用來練習數學疑似、典型高能力 Dyslexia、國中低成就、ADD 共病、資料不足、文化背景、純書寫、注意力、申復與補件。</li><li>個案 24～31 經 Cyclone 確認為課程跳過。</li></ul>
+<h3>三天反覆出現的五個判斷原則</h3>
+<ol><li>先找 primary deficit，再談亞型。</li><li>質性比較常比單一分數更能看出功能瓶頸。</li><li>矛盾資料不是雜訊，而是補件方向。</li><li>疑似與待觀察必須有介入與再確認計畫。</li><li>身分、介入與 accommodation 要能連成一條服務路徑。</li></ol>
+<h3>個案研討速查</h3>
+<div class="table-wrap"><table><thead><tr><th>個案</th><th>核心練習</th><th>最值得帶走的判斷</th></tr></thead><tbody><tr><td>1</td><td>數學與注意力競爭解釋</td><td>工作記憶低不等於數學亞型，需連到數學任務</td></tr><tr><td>2</td><td>典型閱讀／Dyslexia picture</td><td>報讀、自讀與語音處理的證據要互相支持</td></tr><tr><td>3</td><td>閱讀與書寫拆分</td><td>每個亞型要有獨立證據鏈</td></tr><tr><td>4</td><td>Buffet 型風險</td><td>多領域低落先找共同上游因素，不要全收</td></tr><tr><td>5</td><td>Step 3 卡關</td><td>沒有 primary deficit 時不能靠低成就硬湊</td></tr><tr><td>6</td><td>資料矛盾</td><td>矛盾本身就是下一步補件方向</td></tr><tr><td>7</td><td>非典型數學</td><td>數感線索弱時，確認與不確認都要交代理由</td></tr><tr><td>8</td><td>能力與排除拉扯</td><td>非預期性需建立在可辯護的能力估計上</td></tr><tr><td>9</td><td>處理速度與學業</td><td>「慢」要說明慢在哪個任務、造成何種功能影響</td></tr><tr><td>10</td><td>多亞型</td><td>分開完成每一條 Step 1～6</td></tr><tr><td>11</td><td>書寫證據</td><td>抄寫與自主提取比較比單一錯字量更有辨識力</td></tr><tr><td>12</td><td>缺件管理</td><td>只有 2 月補充資料，不能補造 7 月教授結論</td></tr><tr><td>13</td><td>No primary deficit</td><td>知道何時停下來，比勉強分類更重要</td></tr><tr><td>14</td><td>ADD 與 SLD</td><td>注意力要能連到學業功能，也可能與 SLD 共病</td></tr><tr><td>15</td><td>數學線索與排除不足</td><td>相對弱項、視力與動機未釐清時不宜確認</td></tr><tr><td>16</td><td>高能力 Dyslexia</td><td>理解佳與補償策略不能排除解碼缺陷</td></tr><tr><td>17</td><td>國中全面低成就</td><td>追查國小歷程、介入與能力代表性</td></tr><tr><td>18</td><td>ADD 共病</td><td>控制注意條件後，核心讀寫缺陷是否仍存在</td></tr><tr><td>19</td><td>純書寫 picture</td><td>口述／手寫、抄寫／自主書寫要交叉比較</td></tr><tr><td>20</td><td>極短錄音</td><td>來源不足時明確寫無法重建，不推測</td></tr><tr><td>21</td><td>語言文化背景</td><td>不能把家庭語言直接當排除標籤</td></tr><tr><td>22</td><td>書寫與閱讀界線</td><td>錯字、識字、提取和表達需拆開</td></tr><tr><td>23</td><td>注意力補證</td><td>只保留可靠結論，不猜 ASR 無法辨認的亞型</td></tr><tr><td>32</td><td>申復與補件</td><td>回到缺哪一段證據鏈，而非只為過件加資料</td></tr></tbody></table></div>
+<h3>研習後接第一個案的建議節奏</h3>
+<h4>第一次看資料</h4>
+<ul><li>用一句話寫主要功能困難。</li><li>畫出時間軸、介入史與三組條件比較。</li><li>只提出一個優先假設與一個競爭假設。</li></ul>
+<h4>安排評量</h4>
+<ul><li>每個工具先寫「它要回答什麼問題」。</li><li>先做能改變決策的測量，不做沒有假設的測驗全餐。</li><li>同時蒐集作品、課堂觀察、介入反應與錯誤型態。</li></ul>
+<h4>寫報告與會議前</h4>
+<ul><li>用七步驟稽核表檢查缺口與反證。</li><li>先寫 picture 與因果句，再填測驗結果。</li><li>準備「支持結論的最強證據」與「最可能翻案的證據」各一項。</li><li>把服務需求、介入與 accommodation 連回核心 deficit。</li></ul>
+<h3>自我校準練習</h3>
+<p>每次複習任選一案，遮住教授結論後完成：</p>
+<ol><li>30 秒 picture。</li><li>七步驟各一句證據。</li><li>一項最強競爭解釋。</li><li>一項最能翻轉結論的補件。</li><li>一句正式研判句與兩項對準 deficit 的支持。</li></ol>
+<p>再與個案頁的分組分歧、教授結論與泛化原則比較，記錄自己是在哪一步過度推論或證據不足。</p>
+<h3>個人筆記提示</h3>
+<ul><li>今天最容易誤判的情境：</li><li>我還不熟的測驗與分數：</li><li>我需要練習的 Step：</li><li>下次接案要多問的一個問題：</li><li>一個能立刻改善報告寫法的句型：</li></ul></div><div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S4" title="Day 1 課程與個案 1–6 摘要">S4</button><button class="citation" type="button" data-source="S6" title="Day 2 個案 7–11、13–14 摘要">S6</button><button class="citation" type="button" data-source="S7" title="Day 3 Dyslexia、書寫、服務與個案摘要">S7</button></div>
+        </section>
+
+        <section class="tab-panel" id="panel-review" role="tabpanel" aria-labelledby="tab-review" data-panel="review" hidden>
+          <div class="section-intro"><div class="chapter-mark">07</div><div><h2>QA、概念閃卡、隨機選擇題</h2><p>15 則 QA、24 張概念閃卡與 24 題選擇題，用短回合主動提取概念。答錯的不是扣分，而是下一次研判時要多問的一個問題。</p></div></div>
+          <div class="review-mode">
+            <nav class="review-menu" aria-label="複習模式">
+              <button class="active" type="button" data-review="qa">核心 QA</button>
+              <button type="button" data-review="flash">概念閃卡</button>
+              <button type="button" data-review="quiz">隨機選擇題</button>
+            </nav>
+            <div>
+              <section class="review-pane active" data-review-pane="qa">
+                <div class="qa-list">
+                  <details><summary>閱讀理解不錯，可以排除 Dyslexia 嗎？</summary><div class="answer">不可以。高能力學生可能靠整字辨識、上下文、背景知識與推理補償解碼困難。要拆看注音／語音處理、識字、快速念名、單字與文本流暢，以及報讀前後差異。</div></details><details><summary>仿寫正常，可以排除書寫障礙嗎？</summary><div class="answer">不可以。仿寫提供外在字形模板，自主提取、聽寫、延宕再寫與書寫表達才更能顯示字形提取和輸出困難。</div></details><details><summary>數學成績很低，何時仍不能判數學障礙？</summary><div class="answer">若找不到數感、計算事實、工作記憶、處理速度、視空間或執行功能等核心缺陷與數學任務的明確連結，或低成就更能由教學、缺課、能力與動機解釋，就不能只用成績下結論。</div></details><details><summary>注意力問題存在時，SLD 就要排除嗎？</summary><div class="answer">不一定。要判斷注意力是否足以成為主要原因，以及在注意力改善或控制後，特定解碼、字形提取或數感缺陷是否仍存在。</div></details><details><summary>疑似身分要寫什麼？</summary><div class="answer">必須寫出目前缺少哪段證據、要提供什麼介入、由誰蒐集哪些資料、何時重新確認，以及什麼結果會支持或反駁 SLD。</div></details><details><summary>找不到 primary deficit，能用服務需求直接確認 SLD 嗎？</summary><div class="answer">不能。服務需求可以支持立即介入，但不能取代 Step 3 與 Step 4。應先聚焦主訴、補質性比較與介入反應；若仍無法建立特定缺陷與因果鏈，可判待觀察或非特，同時提供一般教育支持。</div></details><details><summary>高能力、閱讀理解佳，為什麼仍可能是 Dyslexia？</summary><div class="answer">高能力學生可能以整字記憶、上下文、背景知識與推理補償解碼困難。要看注音／語音處理、識字、快速念名、單字與篇章流暢，以及自讀／報讀差異，而不是只看理解總分。</div></details><details><summary>同一領域兩份測驗差很多，應採較低那一份嗎？</summary><div class="answer">不應直接選低分。先比較題型、速度負荷、閱讀負荷、常模、施測行為、動機、注意與教學接觸，再用作品及課堂資料判斷哪個結果較具代表性。矛盾本身是補件方向。</div></details><details><summary>送件主訴寫「國語、數學都不好」有什麼問題？</summary><div class="answer">範圍太大，無法形成可檢驗假設。應拆成識字／解碼、流暢、理解、寫字／書寫表達、數感、計算或解題，並指出最具功能影響的任務。</div></details><details><summary>什麼才算可用的有效介入證據？</summary><div class="answer">至少要寫目標、內容、頻率、持續時間、執行者、fidelity、進步監測與泛化。只有「參加學扶一年」或「有做作業」不足以判斷介入是否對準核心困難。</div></details><details><summary>accommodation 和 modification 最重要的差別？</summary><div class="answer">accommodation 調整輸入、輸出、時間或環境，使學生能展現目標能力；modification 改變學習內容或期待標準。兩者都要連回功能需求，不能只列通用選項。</div></details><details><summary>確認 SLD 的報告最少要交代什麼？</summary><div class="answer">主要學業困難、能力估計、primary deficit、因果連結、非預期性、排除因素、亞型、信心、服務需求、介入與評量調整。</div></details><details><summary>個案 12 可以用 2 月資料補成 7 月教授結論嗎？</summary><div class="answer">不可以。相同編號不證明同一案。現有內容只能標為「2 月補充案例，未確認與 7 月同案；無 7 月教授結論」。</div></details><details><summary>錄音太短時，要怎麼寫個案分析？</summary><div class="answer">只保留可可靠確認的訊息，明確列出無法重建的部分，優先找原討論表、講義或在場筆記。個案 20 不可重建 picture／教授結論；個案 23 只能確認注意力需補證。</div></details><details><summary>判定非特，是否代表學生不需要協助？</summary><div class="answer">不是。非特只表示目前不符合特殊教育鑑定證據鏈；仍可提供學習扶助、一般教育介入、課堂調整、輔導與後續進步監測。</div></details>
+                </div><div class="citations" aria-label="本節來源"><button class="citation" type="button" data-source="S1" title="SLD 定義、七步驟與基本心理歷程（內部講義整理）">S1</button><button class="citation" type="button" data-source="S3" title="障別與施測工具對照（講義 OCR 校正）">S3</button><button class="citation" type="button" data-source="S4" title="Day 1 課程與個案 1–6 摘要">S4</button><button class="citation" type="button" data-source="S5" title="Day 2 閱讀、書寫、數學與七步驟講義整理">S5</button><button class="citation" type="button" data-source="S6" title="Day 2 個案 7–11、13–14 摘要">S6</button><button class="citation" type="button" data-source="S7" title="Day 3 Dyslexia、書寫、服務與個案摘要">S7</button><button class="citation" type="button" data-source="S9" title="Day 3 私有錄音逐字稿 package">S9</button><button class="citation" type="button" data-source="S10" title="2 月補充案例 12 候選資料，未確認與 7 月同案">S10</button><button class="citation" type="button" data-source="S11" title="教育部主管法規共用系統：2024-04-29 版本（2026-07-10 當日有效基準）">S11</button><button class="citation" type="button" data-source="S12" title="教育部主管法規共用系統：2026-04-01 修正（第 11、26 條自 2026-08-01 施行）">S12</button></div>
+              </section>
+              <section class="review-pane" data-review-pane="flash" hidden>
+                <div class="flash-toolbar"><span id="flash-counter">1 / 24</span><div><button class="icon-button" type="button" id="flash-prev" aria-label="上一張閃卡">←</button> <button class="icon-button" type="button" id="flash-shuffle">隨機</button> <button class="icon-button" type="button" id="flash-next" aria-label="下一張閃卡">→</button></div></div>
+                <div class="flash-stage"><button class="flashcard" type="button" id="flashcard" aria-label="翻面顯示答案"><span class="flash-face flash-front"><span class="flash-tag" id="flash-tag"></span><span class="flash-term" id="flash-term"></span><span class="flash-hint">點一下翻面 · Space 鍵也可以</span></span><span class="flash-face flash-back"><span class="flash-tag">定義</span><span class="flash-def" id="flash-def"></span><span class="flash-hint">點一下回到正面</span></span></button></div>
+              </section>
+              <section class="review-pane" data-review-pane="quiz" hidden>
+                <div class="quiz-toolbar"><span class="quiz-score" id="quiz-score">本次 0 / 0 · 累積正確 0</span><button class="action-button" type="button" id="quiz-next">換一題</button></div>
+                <div class="quiz-box"><div class="quiz-kicker" id="quiz-source"></div><h3 class="quiz-question" id="quiz-question"></h3><div class="options" id="quiz-options"></div><div class="quiz-feedback" id="quiz-feedback" role="status"></div></div>
+              </section>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="drawer-backdrop" id="drawer-backdrop"></div>
+  <aside class="drawer" id="notes-drawer" aria-hidden="true" aria-labelledby="notes-title">
+    <div class="drawer-head"><div><p class="note-context" id="note-context">各種障別的特質陳述</p><h2 id="notes-title">私人筆記</h2></div><button class="drawer-close" type="button" data-close-drawer aria-label="關閉">×</button></div>
+    <p>筆記只保存在這台瀏覽器的 localStorage，不會寫回 Wiki 或上傳。</p>
+    <textarea class="notes-area" id="notes-area" placeholder="記下研判線索、待補資料或自己的個案連結…"></textarea>
+    <p class="note-status" id="note-status"></p>
+    <button class="action-button" type="button" id="clear-note">清除此頁筆記</button>
+  </aside>
+  <aside class="drawer" id="sources-drawer" aria-hidden="true" aria-labelledby="sources-title">
+    <div class="drawer-head"><div><p class="note-context">SOURCE PROVENANCE</p><h2 id="sources-title">來源類別</h2></div><button class="drawer-close" type="button" data-close-drawer aria-label="關閉">×</button></div>
+    <p>本預覽只顯示來源代碼與類別，不含私有 Drive 路徑、學生資料或原始測驗內容。S11、S12 為教育部官方法規頁面；2026-07-10 當日有效版本與 2026-08-01 起施行版本必須分開解讀。</p>
+    <ul class="source-list"><li><strong>S1</strong><span>SLD 定義、七步驟與基本心理歷程（內部講義整理）</span></li><li><strong>S2</strong><span>教授研判原則與質性資料提醒（研習學習筆記）</span></li><li><strong>S3</strong><span>障別與施測工具對照（講義 OCR 校正）</span></li><li><strong>S4</strong><span>Day 1 課程與個案 1–6 摘要</span></li><li><strong>S5</strong><span>Day 2 閱讀、書寫、數學與七步驟講義整理</span></li><li><strong>S6</strong><span>Day 2 個案 7–11、13–14 摘要</span></li><li><strong>S7</strong><span>Day 3 Dyslexia、書寫、服務與個案摘要</span></li><li><strong>S8</strong><span>Day 1–2 私有錄音逐字稿 package</span></li><li><strong>S9</strong><span>Day 3 私有錄音逐字稿 package</span></li><li><strong>S10</strong><span>2 月補充案例 12 候選資料，未確認與 7 月同案</span></li><li><strong>S11</strong><span><a href="https://edu.law.moe.gov.tw/LawContentHistory.aspx?hid=205548&amp;id=FL009187" target="_blank" rel="noreferrer">教育部主管法規共用系統：2024-04-29 版本（2026-07-10 當日有效基準）</a></span></li><li><strong>S12</strong><span><a href="https://edu.law.moe.gov.tw/LawContent.aspx?id=FL009187&amp;media=print" target="_blank" rel="noreferrer">教育部主管法規共用系統：2026-04-01 修正（第 11、26 條自 2026-08-01 施行）</a></span></li></ul>
+  </aside>
+
+  <script>
+    (() => {
+      'use strict';
+      const tabs = [{"id":"traits","label":"各種障別的特質陳述"},{"id":"exclusions","label":"注意力、共病與排除因素"},{"id":"tools","label":"建議施測工具"},{"id":"steps","label":"七步驟研判程序"},{"id":"cases","label":"個案研討庫"},{"id":"workshop","label":"三日研習複習"},{"id":"review","label":"QA、概念閃卡、隨機選擇題"}];
+      const flashcards = [{"term":"primary deficit","def":"最能解釋特定學業困難的核心基本心理歷程缺陷","tag":"Step 3"},{"term":"非預期低成就","def":"相對於合理能力估計與學習機會，不應低落到目前程度","tag":"Step 5"},{"term":"報讀增益","def":"報讀後理解提升，提示解碼／識字可能是 access bottleneck","tag":"閱讀"},{"term":"抄寫 vs 自主書寫","def":"外在模板與內在字形提取的功能比較","tag":"書寫"},{"term":"accommodation","def":"調整輸入／輸出與時間條件，使評量測到目標能力","tag":"服務"},{"term":"modification","def":"改變學習內容或期待標準，與 accommodation 不同","tag":"服務"},{"term":"疑似","def":"線索強但證據鏈未完成，需配套介入與再評","tag":"決策"},{"term":"非特","def":"不符合特教鑑定，不等於不需要一般教育支持","tag":"決策"},{"term":"sign","def":"可觀察困難，只能提出假設，不能單獨完成鑑定","tag":"證據"},{"term":"deficit","def":"經適切測量與質性比較持續出現的基本心理歷程缺陷","tag":"證據"},{"term":"disability decision","def":"deficit、因果、非預期與排除因素整合後的決策","tag":"證據"},{"term":"自讀 vs 報讀","def":"檢查文字 access 與口語理解的功能差異","tag":"閱讀"},{"term":"限時 vs 不限時","def":"區分核心正確性與速度成本","tag":"質性比較"},{"term":"剛教完 vs 延宕後","def":"檢查短期學會、長期保持與提取","tag":"記憶"},{"term":"介入 fidelity","def":"介入是否足量、穩定、對準並依設計執行","tag":"介入"},{"term":"競爭解釋","def":"可能比 SLD 更完整解釋困難的另一個假設","tag":"Step 6"},{"term":"共病","def":"兩個問題各自成立並各有功能影響，不互相抵銷","tag":"排除"},{"term":"次級反應","def":"長期失敗後出現的逃避、焦慮或低動機","tag":"行為"},{"term":"evidence triad","def":"標準化資料、質性表現與學習歷程互證","tag":"整合"},{"term":"閱讀流暢","def":"正確、速度與自動化的綜合表現","tag":"閱讀"},{"term":"聲韻覺識","def":"對語音單位辨識與操弄的能力","tag":"閱讀"},{"term":"快速自動化念名","def":"熟悉刺激的快速提取與自動化表現","tag":"閱讀"},{"term":"數感","def":"數量、大小、位值、數線與估算的核心概念","tag":"數學"},{"term":"翻案證據","def":"若成立會改變研判方向的關鍵反證或補件","tag":"稽核"}];
+      const quiz = [{"q":"某生口語理解與推理佳，自讀理解低，報讀後明顯提升。最優先補哪類資料？","a":["只重測閱讀理解","識字、解碼、流暢與語音處理","只做注意力量表","直接判書寫障礙"],"correct":1,"why":"報讀增益提示閱讀 access 可能卡在識字／解碼；仍需用多來源證據確認。","source":"S1","tags":"閱讀、Dyslexia"},{"q":"某生抄寫整齊，但聽寫、延宕後再寫與自發作文大量寫不出字。哪個假設最值得查？","a":["字形提取／書寫困難","只有握筆問題","數學障礙","沒有任何困難"],"correct":0,"why":"抄寫不能排除自主字形提取困難。","source":"S5","tags":"書寫、字形提取"},{"q":"下列何者最符合 Step 4？","a":["WMI 低，數學也低","學生很努力","工作記憶負荷使多步驟計算時遺失中間結果，錯誤集中在需保留與更新資訊的題型","家長說他數學不好"],"correct":2,"why":"它說明心理歷程缺陷如何造成特定學業表現。","source":"S1","tags":"七步驟、因果連結"},{"q":"學生有 ADHD 診斷，哪個處理最恰當？","a":["自動排除 SLD","自動確認 SLD 共病","比較注意支持前後，檢查特定學業缺陷是否仍存在","只看施測當天是否坐得住"],"correct":2,"why":"診斷名稱不能取代功能分析；注意力可能是主要原因、共病或次級反應。","source":"S4","tags":"注意力、共病"},{"q":"高能力學生閱讀理解佳，但注音、解碼與快速念名長期弱，最合理的解釋是？","a":["可排除 Dyslexia","可能以推理與脈絡補償底層解碼困難","一定只有注意力問題","只需再做一次理解測驗"],"correct":1,"why":"高能力補償可能遮蔽識字／解碼與流暢瓶頸。","source":"S7","tags":"閱讀、補償"},{"q":"Step 3 找不到 primary deficit 時，下一步是？","a":["用多個相對低分拼成缺陷","直接跳到 Step 7","聚焦主訴、補質性比較與介入資料","因有需求就確認亞型"],"correct":2,"why":"沒有核心缺陷就無法建立 Step 4 因果鏈。","source":"S1","tags":"七步驟、Step 3"},{"q":"閱讀、書寫、數學都低時，哪個作法最不適當？","a":["先查整體能力與共同上游因素","分別建立每個亞型的證據鏈","直接確認三個亞型","檢查服務是否能對準各困難"],"correct":2,"why":"多領域低落不等於三條 SLD 證據鏈都成立。","source":"S4","tags":"混合型、Buffet"},{"q":"下列哪一項最能證明「有接受有效介入」？","a":["有參加學扶","有完成作業","有目標、頻率、持續時間、fidelity 與進步監測","教師說很努力"],"correct":2,"why":"介入名稱或時間長度不能取代可稽核的內容與反應資料。","source":"S3","tags":"介入、fidelity"},{"q":"下列哪個比較最能檢查字形提取？","a":["抄寫 vs 自主／延宕書寫","數學 vs 國語成績","上午 vs 下午","圖畫 vs 體育"],"correct":0,"why":"外在模板與內在提取的差異是書寫研判的重要質性證據。","source":"S5","tags":"書寫、施測"},{"q":"計算正確但耗時異常，最優先做什麼？","a":["直接判數學障礙","比較限時／不限時、事實提取與數感","只看總分","改判閱讀障礙"],"correct":1,"why":"要區分「會但慢」與核心數學概念缺陷。","source":"S3","tags":"數學、處理速度"},{"q":"家庭使用不同語言，Step 6 應如何處理？","a":["一律排除 SLD","完全不考慮","查語言暴露、就學機會、跨語言表現與介入反應","只問家中說哪一種語言"],"correct":2,"why":"文化語言背景需要功能分析，不能當方便的排除標籤。","source":"S7","tags":"文化語言、排除"},{"q":"個案 12 的正確來源標示是？","a":["已確認為 7 月同案","2 月補充案例，未確認同案，無 7 月教授結論","依相鄰個案補結論","直接刪除"],"correct":1,"why":"相同編號不是同一案證明。","source":"S10","tags":"個案 12、來源治理"},{"q":"個案 20 的錄音約 30 秒，應如何處理？","a":["補寫完整 picture","套用個案 19 結論","標示無法重建，優先找原討論資料","猜教授最可能的判定"],"correct":2,"why":"極短且斷裂的來源不能支撐個案重建。","source":"S9","tags":"個案 20、資料不足"},{"q":"個案 23 目前唯一可靠的結論是？","a":["已確認精確亞型","注意力證據需要補足","一定是非特","一定是書寫障礙"],"correct":1,"why":"ASR 的亞型詞不可靠，不能推測性修復。","source":"S9","tags":"個案 23、注意力"},{"q":"申復或補件時，最重要的起點是？","a":["增加測驗數量","找出哪一段證據鏈不足或反證未處理","改寫較強烈的結論","刪除不利資料"],"correct":1,"why":"補件要改變決策資訊，不是堆資料或為過件修辭。","source":"S7","tags":"個案 32、補件"},{"q":"下列哪一項屬於 accommodation？","a":["降低學習目標","刪除年級核心內容","報讀非閱讀目標的題目以降低解碼負荷","永久免除所有作業"],"correct":2,"why":"它調整 access，使評量更接近目標能力；沒有改變目標本身。","source":"S1","tags":"服務、評量調整"},{"q":"兩份同領域測驗差異很大，哪個反應最專業？","a":["採最低分","採最高分","比較題型、速度、注意、常模與質性表現","兩份都忽略"],"correct":2,"why":"先解釋差異來源，再判斷結果代表性。","source":"S4","tags":"矛盾資料、代表性"},{"q":"選擇測驗前最重要的問題是？","a":["哪個測驗最常用","這個工具要驗證或推翻哪個假設","能否把所有測驗做完","哪份分數最低"],"correct":1,"why":"施測應由主訴與假設驅動，不做沒有問題意識的測驗全餐。","source":"S3","tags":"施測工具、假設驅動"},{"q":"哪一項最能提升研判信心？","a":["單一極低分","標準化、質性比較與長期歷程一致","單次家長描述","施測者直覺"],"correct":1,"why":"不同來源指向同一功能機制，證據鏈才穩定。","source":"S1","tags":"證據整合"},{"q":"哪種注意力資料最弱？","a":["跨情境固定間隔觀察","任務條件與提示前後比較","一次施測印象寫「容易分心」","多位熟悉學生者的功能描述"],"correct":2,"why":"缺乏頻率、情境與功能影響，不能支撐主要原因判斷。","source":"S4","tags":"注意力、觀察"},{"q":"判定非特後最合適的做法是？","a":["停止所有協助","提供一般教育介入並監測進步","改用別的身分","不再蒐集資料"],"correct":1,"why":"身分決策與教育支持不是二選一。","source":"S1","tags":"非特、支持"},{"q":"2026-07-10 正式送件，應把哪個版本當日有效基準？","a":["2026-08-01 起施行的修正條文","2024-04-29 版本及所在地當期規定","只看研習講義","任選一版"],"correct":1,"why":"2026-04-01 公布的修正條文尚未施行。","source":"S11","tags":"法規、版本"},{"q":"2026-08-01 起的新基準特別要求更清楚呈現什麼？","a":["只要智力分數","基本學業能力相對年級水準與有效介入後仍無明顯改善","只要教師同意","不再需要排除因素"],"correct":1,"why":"修正條文重整基本學業能力低落與一般教育有效介入反應的表述。","source":"S12","tags":"法規、介入"},{"q":"送件前的「翻案證據」是什麼？","a":["支持現有結論的另一個低分","若成立會改變研判方向的關鍵反證或補件","不需處理的雜訊","教授最後一句話"],"correct":1,"why":"主動寫出最可能翻轉結論的資料，能檢查過度推論並安排有效補件。","source":"S1","tags":"稽核、報告"}];
+      const storageKey = 'sld-guide-v1';
+      const state = JSON.parse(localStorage.getItem(storageKey) || '{}');
+      state.visited = Array.isArray(state.visited) ? state.visited : ['traits'];
+      state.notes = state.notes || {};
+      state.steps = state.steps || {};
+      state.quiz = state.quiz || { correct: 0, answered: 0 };
+      let activeTab = state.activeTab && tabs.some((tab) => tab.id === state.activeTab) ? state.activeTab : 'traits';
+      let flashIndex = Number.isInteger(state.flashIndex) ? state.flashIndex % flashcards.length : 0;
+      let currentQuiz = 0;
+      let sessionCorrect = 0;
+      let sessionAnswered = 0;
+      let noteTimer;
+      let lastFocus = null;
+
+      const save = () => localStorage.setItem(storageKey, JSON.stringify(state));
+      const allTabButtons = () => [...document.querySelectorAll('[data-tab]')];
+
+      function setTab(id, focus = false) {
+        if (!tabs.some((tab) => tab.id === id)) return;
+        activeTab = id;
+        state.activeTab = id;
+        if (!state.visited.includes(id)) state.visited.push(id);
+        document.querySelectorAll('[data-panel]').forEach((panel) => {
+          const active = panel.dataset.panel === id;
+          panel.classList.toggle('active', active);
+          panel.hidden = !active;
+        });
+        allTabButtons().forEach((button) => {
+          const selected = button.dataset.tab === id;
+          button.setAttribute('aria-selected', String(selected));
+          button.tabIndex = selected ? 0 : -1;
+        });
+        const meta = tabs.find((tab) => tab.id === id);
+        document.getElementById('mobile-current').textContent = meta.label;
+        document.getElementById('note-context').textContent = meta.label;
+        document.getElementById('notes-area').value = state.notes[id] || '';
+        const count = state.visited.length;
+        document.getElementById('progress-copy').textContent = count + ' / 7';
+        document.getElementById('progress-line').style.width = (count / 7 * 100) + '%';
+        history.replaceState(null, '', '#' + id);
+        save();
+        if (focus) document.querySelector('#panel-' + id).focus?.();
+        window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      }
+
+      allTabButtons().forEach((button) => {
+        button.addEventListener('click', () => setTab(button.dataset.tab));
+        button.addEventListener('keydown', (event) => {
+          if (!['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
+          event.preventDefault();
+          const group = [...button.closest('[role="tablist"]').querySelectorAll('[data-tab]')];
+          let index = group.indexOf(button);
+          if (event.key === 'Home') index = 0;
+          else if (event.key === 'End') index = group.length - 1;
+          else index = (index + (['ArrowRight', 'ArrowDown'].includes(event.key) ? 1 : -1) + group.length) % group.length;
+          group[index].focus();
+          setTab(group[index].dataset.tab);
+        });
+      });
+      const hashTab = location.hash.slice(1);
+      setTab(tabs.some((tab) => tab.id === hashTab) ? hashTab : activeTab);
+
+      document.querySelectorAll('[data-step-check]').forEach((input) => {
+        input.checked = Boolean(state.steps[input.dataset.stepCheck]);
+        input.addEventListener('change', () => { state.steps[input.dataset.stepCheck] = input.checked; save(); });
+      });
+
+      const caseCards = [...document.querySelectorAll('.case-card')];
+      function filterCases() {
+        const query = document.getElementById('case-search').value.trim().toLowerCase();
+        const day = document.getElementById('day-filter').value;
+        const status = document.getElementById('status-filter').value;
+        let visible = 0;
+        caseCards.forEach((card) => {
+          const show = (!query || card.dataset.search.includes(query)) && (day === 'all' || card.dataset.day === day) && (status === 'all' || card.dataset.status === status);
+          card.classList.toggle('hidden', !show);
+          if (show) visible += 1;
+        });
+        document.getElementById('case-count').textContent = '顯示 ' + visible + ' / ' + caseCards.length + ' 案';
+        document.getElementById('case-empty').style.display = visible ? 'none' : 'block';
+      }
+      ['case-search', 'day-filter', 'status-filter'].forEach((id) => document.getElementById(id).addEventListener(id === 'case-search' ? 'input' : 'change', filterCases));
+
+      document.querySelectorAll('[data-review]').forEach((button) => button.addEventListener('click', () => {
+        const id = button.dataset.review;
+        document.querySelectorAll('[data-review]').forEach((item) => item.classList.toggle('active', item === button));
+        document.querySelectorAll('[data-review-pane]').forEach((pane) => {
+          const active = pane.dataset.reviewPane === id;
+          pane.classList.toggle('active', active);
+          pane.hidden = !active;
+        });
+      }));
+
+      function renderFlash() {
+        const card = flashcards[flashIndex];
+        document.getElementById('flash-tag').textContent = card.tag;
+        document.getElementById('flash-term').textContent = card.term;
+        document.getElementById('flash-def').textContent = card.def;
+        document.getElementById('flash-counter').textContent = (flashIndex + 1) + ' / ' + flashcards.length;
+        document.getElementById('flashcard').classList.remove('flipped');
+        state.flashIndex = flashIndex;
+        save();
+      }
+      document.getElementById('flashcard').addEventListener('click', (event) => event.currentTarget.classList.toggle('flipped'));
+      document.getElementById('flash-prev').addEventListener('click', () => { flashIndex = (flashIndex - 1 + flashcards.length) % flashcards.length; renderFlash(); });
+      document.getElementById('flash-next').addEventListener('click', () => { flashIndex = (flashIndex + 1) % flashcards.length; renderFlash(); });
+      document.getElementById('flash-shuffle').addEventListener('click', () => { flashIndex = Math.floor(Math.random() * flashcards.length); renderFlash(); });
+      renderFlash();
+
+      function renderQuiz() {
+        currentQuiz = Math.floor(Math.random() * quiz.length);
+        const item = quiz[currentQuiz];
+        document.getElementById('quiz-source').textContent = '來源 ' + item.source + (item.tags ? ' · ' + item.tags : '');
+        document.getElementById('quiz-question').textContent = item.q;
+        document.getElementById('quiz-feedback').classList.remove('visible');
+        document.getElementById('quiz-feedback').textContent = '';
+        const options = document.getElementById('quiz-options');
+        options.innerHTML = '';
+        item.a.forEach((answer, index) => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'option';
+          button.textContent = String.fromCharCode(65 + index) + '. ' + answer;
+          button.addEventListener('click', () => answerQuiz(index));
+          options.appendChild(button);
+        });
+      }
+      function answerQuiz(index) {
+        const item = quiz[currentQuiz];
+        const buttons = [...document.querySelectorAll('.option')];
+        buttons.forEach((button, optionIndex) => {
+          button.disabled = true;
+          if (optionIndex === item.correct) button.classList.add('correct');
+          else if (optionIndex === index) button.classList.add('wrong');
+        });
+        const correct = index === item.correct;
+        sessionAnswered += 1;
+        state.quiz.answered += 1;
+        if (correct) { sessionCorrect += 1; state.quiz.correct += 1; }
+        const feedback = document.getElementById('quiz-feedback');
+        feedback.textContent = (correct ? '答對。' : '再校準一次。') + item.why;
+        feedback.classList.add('visible');
+        document.getElementById('quiz-score').textContent = '本次 ' + sessionCorrect + ' / ' + sessionAnswered + ' · 累積正確 ' + state.quiz.correct;
+        save();
+      }
+      document.getElementById('quiz-next').addEventListener('click', renderQuiz);
+      renderQuiz();
+
+      const backdrop = document.getElementById('drawer-backdrop');
+      function openDrawer(id) {
+        lastFocus = document.activeElement;
+        const drawer = document.getElementById(id + '-drawer');
+        drawer.classList.add('open');
+        drawer.setAttribute('aria-hidden', 'false');
+        backdrop.classList.add('open');
+        setTimeout(() => drawer.querySelector('button, textarea')?.focus(), 10);
+      }
+      function closeDrawers() {
+        document.querySelectorAll('.drawer').forEach((drawer) => { drawer.classList.remove('open'); drawer.setAttribute('aria-hidden', 'true'); });
+        backdrop.classList.remove('open');
+        lastFocus?.focus?.();
+      }
+      document.querySelectorAll('[data-open-drawer]').forEach((button) => button.addEventListener('click', () => openDrawer(button.dataset.openDrawer)));
+      document.querySelectorAll('[data-close-drawer]').forEach((button) => button.addEventListener('click', closeDrawers));
+      document.querySelectorAll('[data-source]').forEach((button) => button.addEventListener('click', () => openDrawer('sources')));
+      backdrop.addEventListener('click', closeDrawers);
+      document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeDrawers(); });
+
+      const notes = document.getElementById('notes-area');
+      notes.addEventListener('input', () => {
+        clearTimeout(noteTimer);
+        document.getElementById('note-status').textContent = '準備儲存…';
+        noteTimer = setTimeout(() => {
+          state.notes[activeTab] = notes.value;
+          save();
+          document.getElementById('note-status').textContent = '已保存在這台瀏覽器';
+        }, 350);
+      });
+      document.getElementById('clear-note').addEventListener('click', () => {
+        notes.value = '';
+        delete state.notes[activeTab];
+        save();
+        document.getElementById('note-status').textContent = '本頁筆記已清除';
+      });
+    })();
+  </script>
+  <script>
+    (() => {
+      const button = document.getElementById('theme-toggle');
+      const applyTheme = (theme) => {
+        document.documentElement.dataset.theme = theme;
+        const dark = theme === 'dark';
+        button.textContent = dark ? '☀' : '☾';
+        const label = dark ? '切換為明亮模式' : '切換為暗色模式';
+        button.title = label;
+        button.setAttribute('aria-label', label);
+      };
+      applyTheme(document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
+      button.addEventListener('click', () => {
+        const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        try { localStorage.setItem('sld-guide-theme', next); } catch (_) {}
+        applyTheme(next);
+      });
+    })();
+  </script>
+</body>
+</html>
