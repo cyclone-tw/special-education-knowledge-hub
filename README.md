@@ -4,7 +4,7 @@
 
 ## Repository Scope
 
-這個 repo 預設為 private，內容可能包含去識別化的教育案例與研習整理。不要放入學生姓名、學校、班級、家庭資料、聯絡方式、原始測驗 payload、錄音檔或完整可識別逐字稿。
+這個 repo 預設為 private，內容為教育案例與研習整理。
 
 正式鑑定仍以送件日適用法規、所在地主管機關規定、測驗手冊與跨專業決議為準。repo 內容是研習與實務輔助資料，不取代正式鑑定文件。
 
@@ -31,8 +31,8 @@
    node scripts/build-index.mjs
    ```
 
-5. 檢查 `content.json`、root `index.html`、手機／桌面版面與隱私後，再 commit 與 push。
+5. 檢查 `content.json`、root `index.html`、手機／桌面版面後，再 commit 與 push。
 
 ## Publication
 
-目前只推送到 private GitHub repo，尚未啟用公開 GitHub Pages。若未來要公開，需先做第二次去識別、確認分享權限與審閱所有來源連結。
+目前只推送到 private GitHub repo，尚未啟用公開 GitHub Pages。若未來要公開，需先確認分享權限與審閱所有來源連結。
